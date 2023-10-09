@@ -67,12 +67,11 @@ elif menu_option == "Salir":
 
 # Modificar la sección "Entrar" en el menú
 if st.button("Entrar"):
-    st.subheader("Inicio de Sesión")
+    st.subheader("Inicio de Sesión o Registro")
     username = st.text_input("Nombre de Usuario:")
     password = st.text_input("Contraseña:", type="password")
     
-    # Capturar el evento Enter
-    if st.key_press("Enter"):
+    if st.button("Iniciar Sesión"):
         mensaje = iniciar_sesion(username, password)
         st.write(mensaje)
         
@@ -106,6 +105,9 @@ if st.button("Entrar"):
                     st.pyplot(fig)
                 else:
                     st.warning("No hay datos de gastos para calcular estadísticas.")
+    elif st.button("Registrarse"):
+        mensaje_registro = registrar_usuario(username, password)
+        st.write(mensaje_registro)
 
 # Guardar los datos en un archivo CSV
 if not df.empty:
