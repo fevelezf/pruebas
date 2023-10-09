@@ -11,22 +11,17 @@ usuarios_df = pd.read_csv('usuarios.csv')
 data = {'Fecha': [], 'Categoría': [], 'Monto': []}
 df = pd.DataFrame(data)
 
+# Función para registrar un nuevo usuario
 def registrar_usuario(username, password):
-    # Lee el archivo CSV de usuarios existente o crea uno si no existe
-    try:
-        usuarios_df = pd.read_csv('usuarios.csv')
-    except FileNotFoundError:
-        usuarios_df = pd.DataFrame(columns=['Username', 'Password'])
+    global usuarios_df
 
-    # Verifica si el usuario ya existe
+    # Verificar si el usuario ya existe
     if username in usuarios_df['Username'].values:
         return False, "El usuario ya existe. Por favor, elija otro nombre de usuario."
 
-    # Agrega el nuevo usuario y contraseña al DataFrame
-    usuarios_df = usuarios_df.append({'Username': username, 'Password': password}, ignore_index=True)
-
-    # Guarda el DataFrame actualizado en el archivo CSV
-    usuarios_df.to_csv('usuarios.csv', index=False)
+    # Agregar el nuevo usuario al DataFrame
+    nuevo_usuario = pd.DataFrame({'Username': [username], 'Password': [password]})
+    usuarios_df = pd.concat([usuarios_df, nuevo_usuario], ignore_index=True)
 
     return True, "Registro exitoso. Ahora puede iniciar sesión."
 
