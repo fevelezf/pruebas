@@ -2,14 +2,21 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import os
 
-# Cargar el archivo CSV con los usuarios
-usuarios_df = pd.read_csv('usuarios.csv')
+# Obtener el nombre de usuario actual después del inicio de sesión
+def get_current_user():
+    return st.session_state.username
 
-
-# Crear un DataFrame de pandas para registrar los gastos
-data = {'Fecha': [], 'Categoría': [], 'Monto': []}
-df = pd.DataFrame(data)
+# Función para cargar o crear un archivo CSV para el usuario actual
+def get_user_data(username):
+    user_data_filename = f"{username}_data.csv"
+    if not os.path.exists(user_data_filename):
+        # Si el archivo no existe, crea un DataFrame vacío
+        return pd.DataFrame({'Fecha': [], 'Tipo': [], 'Categoría': [], 'Monto': []})
+    else:
+        # Si el archivo existe, carga los datos desde el archivo CSV
+        return pd.read_csv(user_data_filename)
 
 # Función para registrar un nuevo usuario
 def registrar_usuario(username, password):
@@ -28,8 +35,6 @@ def registrar_usuario(username, password):
 
     return True, "Registro exitoso. Ahora puede iniciar sesión."
 
-# ...
-
 def verificar_credenciales(username, password):
     # Lee el archivo CSV de usuarios
     try:
@@ -43,6 +48,22 @@ def verificar_credenciales(username, password):
     else:
         return False, "Credenciales incorrectas. Por favor, verifique su nombre de usuario y contraseña."
     
+
+# Función para registrar un gasto o ingreso
+def registrar_dato(tipo, fecha, categoria, monto):
+    username = get_current_user()
+    user_data = get_user_data(username)
+    nuevo_dato = pd.DataFrame({'Fecha': [fecha], 'Tipo': [tipo], 'Categoría': [categoria], 'Monto': [monto]})
+    user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
+    user_data.to_csv(f"{username}_data.csv", index=False)
+
+# Función para mostrar los gastos e ingresos del usuario actual
+def mostrar_gastos_ingresos():
+    username = get_current_user()
+    user_data = get_user_data(username)
+
+    st.write(f"Gastos e Ingresos de {username}:")
+    st.dataframe(user_data)
 
 # Título de la aplicación
 st.title("Seguimiento de Gastos Personales")
@@ -62,34 +83,22 @@ if menu_option == "Inicio":
         login_successful, message = verificar_credenciales(username, password)
         if login_successful:
             st.success(message)
-            opcion = st.selectbox("Seleccione una opción:", ["Agregar Gasto", "Calcular Estadísticas"])
-            if opcion == "Agregar Gasto":
+            st.session_state.username = username  # Almacenar el nombre de usuario en la sesión
+            opcion = st.selectbox("Seleccione una opción:", ["Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos"])
+            
+            if opcion == "Registrar Gasto" or opcion == "Registrar Ingreso":
                 fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
-                categoria = st.text_input("Ingrese la categoría del gasto:")
-                monto = st.number_input("Ingrese el monto del gasto:")
-            elif opcion == "Calcular Estadísticas":
-                if not df.empty:
-                    # Estadísticas generales
-                    promedio_total = df['Monto'].mean()
-                    gasto_total = df['Monto'].sum()
-
-                    # Estadísticas por categoría
-                    estadisticas_por_categoria = df.groupby('Categoría')['Monto'].sum()
-
-                    st.write("\nEstadísticas Generales:")
-                    st.write(f"Promedio Mensual: {promedio_total}")
-                    st.write(f"Gasto Total: {gasto_total}")
-
-                    st.write("\nEstadísticas por Categoría:")
-                    st.write(estadisticas_por_categoria)
-
-                    # Crear un gráfico de pastel de la distribución de gastos por categoría
-                    fig, ax = plt.subplots()
-                    ax.pie(estadisticas_por_categoria, labels=estadisticas_por_categoria.index, autopct='%1.1f%%')
-                    ax.set_title('Distribución de Gastos por Categoría')
-                    st.pyplot(fig)
-                else:
-                    st.warning("No hay datos de gastos para calcular estadísticas.")
+                categoria = st.text_input("Ingrese la categoría:")
+                monto = st.number_input("Ingrese el monto:")
+                
+                if st.button("Registrar"):
+                    if opcion == "Registrar Gasto":
+                        registrar_dato("Gasto", fecha, categoria, monto)
+                    elif opcion == "Registrar Ingreso":
+                        registrar_dato("Ingreso", fecha, categoria, monto)
+                    st.success(f"{opcion} registrado exitosamente.")
+            elif opcion == "Mostrar Gastos e Ingresos":
+                mostrar_gastos_ingresos()
         else:
             st.error(message)
 elif menu_option == "Registro":
@@ -108,7 +117,3 @@ elif menu_option == "Registro":
 elif menu_option == "Salir":
     st.balloons()
     st.stop()
-
-# Guardar los datos en un archivo CSV
-if not df.empty:
-    df.to_csv('gastos_personales.csv', index=False)
