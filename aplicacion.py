@@ -27,7 +27,17 @@ def registrar_usuario(username, password):
 # ...
 
 # Función para iniciar sesión
-def iniciar_sesion(username, password):
+def iniciar_sesion():
+    username = st.text_input("Nombre de Usuario:")
+    password = st.text_input("Contraseña:", type="password")
+    
+    if st.button("Iniciar Sesión"):
+        mensaje = iniciar_sesion(username, password)
+        st.write(mensaje)
+
+    elif st.button("Registrarse"):
+        mensaje_registro = registrar_usuario(username, password)
+        st.write(mensaje_registro)
     # Buscar el usuario en el DataFrame
     user_row = usuarios_df[usuarios_df['Usuario'] == username]
     
@@ -68,46 +78,40 @@ elif menu_option == "Salir":
 # Modificar la sección "Entrar" en el menú
 if st.button("Entrar"):
     st.subheader("Inicio de Sesión o Registro")
-    username = st.text_input("Nombre de Usuario:")
-    password = st.text_input("Contraseña:", type="password")
-    
-    if st.button("Iniciar Sesión"):
-        mensaje = iniciar_sesion(username, password)
-        st.write(mensaje)
+    mensaje = iniciar_sesion()
+
         
-        if mensaje == "Inicio de sesión exitoso.":
-            # Ahora puedes ejecutar el resto de la aplicación
-            opcion = st.selectbox("Seleccione una opción:", ["Agregar Gasto", "Calcular Estadísticas"])
-            if opcion == "Agregar Gasto":
-                fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
-                categoria = st.text_input("Ingrese la categoría del gasto:")
-                monto = st.number_input("Ingrese el monto del gasto:")
-            elif opcion == "Calcular Estadísticas":
-                if not df.empty:
-                    # Estadísticas generales
-                    promedio_total = df['Monto'].mean()
-                    gasto_total = df['Monto'].sum()
+    if mensaje == "Inicio de sesión exitoso.":
+        # Ahora puedes ejecutar el resto de la aplicación
+        opcion = st.selectbox("Seleccione una opción:", ["Agregar Gasto", "Calcular Estadísticas"])
+        if opcion == "Agregar Gasto":
+            fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
+            categoria = st.text_input("Ingrese la categoría del gasto:")
+            monto = st.number_input("Ingrese el monto del gasto:")
+        elif opcion == "Calcular Estadísticas":
+            if not df.empty:
+                # Estadísticas generales
+                promedio_total = df['Monto'].mean()
+                gasto_total = df['Monto'].sum()
 
-                    # Estadísticas por categoría
-                    estadisticas_por_categoria = df.groupby('Categoría')['Monto'].sum()
+                # Estadísticas por categoría
+                estadisticas_por_categoria = df.groupby('Categoría')['Monto'].sum()
 
-                    st.write("\nEstadísticas Generales:")
-                    st.write(f"Promedio Mensual: {promedio_total}")
-                    st.write(f"Gasto Total: {gasto_total}")
+                st.write("\nEstadísticas Generales:")
+                st.write(f"Promedio Mensual: {promedio_total}")
+                st.write(f"Gasto Total: {gasto_total}")
 
-                    st.write("\nEstadísticas por Categoría:")
-                    st.write(estadisticas_por_categoria)
+                st.write("\nEstadísticas por Categoría:")
+                st.write(estadisticas_por_categoria)
 
-                    # Crear un gráfico de pastel de la distribución de gastos por categoría
-                    fig, ax = plt.subplots()
-                    ax.pie(estadisticas_por_categoria, labels=estadisticas_por_categoria.index, autopct='%1.1f%%')
-                    ax.set_title('Distribución de Gastos por Categoría')
-                    st.pyplot(fig)
-                else:
-                    st.warning("No hay datos de gastos para calcular estadísticas.")
-    elif st.button("Registrarse"):
-        mensaje_registro = registrar_usuario(username, password)
-        st.write(mensaje_registro)
+                # Crear un gráfico de pastel de la distribución de gastos por categoría
+                fig, ax = plt.subplots()
+                ax.pie(estadisticas_por_categoria, labels=estadisticas_por_categoria.index, autopct='%1.1f%%')
+                ax.set_title('Distribución de Gastos por Categoría')
+                st.pyplot(fig)
+            else:
+                st.warning("No hay datos de gastos para calcular estadísticas.")
+
 
 # Guardar los datos en un archivo CSV
 if not df.empty:
