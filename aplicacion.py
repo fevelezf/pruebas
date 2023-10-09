@@ -65,14 +65,14 @@ elif menu_option == "Salir":
     st.balloons()
     st.stop()
 
-# Botón de "Entrar" para acceder a la aplicación
 # Modificar la sección "Entrar" en el menú
 if st.button("Entrar"):
     st.subheader("Inicio de Sesión")
     username = st.text_input("Nombre de Usuario:")
     password = st.text_input("Contraseña:", type="password")
     
-    if st.button("Iniciar Sesión"):
+    # Capturar el evento Enter
+    if st.key_press("Enter"):
         mensaje = iniciar_sesion(username, password)
         st.write(mensaje)
         
