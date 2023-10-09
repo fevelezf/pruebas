@@ -23,6 +23,9 @@ def registrar_usuario(username, password):
     nuevo_usuario = pd.DataFrame({'Username': [username], 'Password': [password]})
     usuarios_df = pd.concat([usuarios_df, nuevo_usuario], ignore_index=True)
 
+    # Guardar el DataFrame actualizado en el archivo CSV
+    usuarios_df.to_csv('usuarios.csv', index=False)
+
     return True, "Registro exitoso. Ahora puede iniciar sesión."
 
 # ...
