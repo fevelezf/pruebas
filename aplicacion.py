@@ -4,6 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 
+# Cargar el archivo CSV con los usuarios
+usuarios_df = pd.read_csv('usuarios.csv')
+
 # Obtener el nombre de usuario actual después del inicio de sesión
 def get_current_user():
     return st.session_state.username
