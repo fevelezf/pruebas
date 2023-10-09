@@ -66,8 +66,8 @@ elif menu_option == "Salir":
     st.stop()
 
 # Botón de "Entrar" para acceder a la aplicación
+# Modificar la sección "Entrar" en el menú
 if st.button("Entrar"):
-    # Modificar la sección "Entrar" en el menú
     st.subheader("Inicio de Sesión")
     username = st.text_input("Nombre de Usuario:")
     password = st.text_input("Contraseña:", type="password")
@@ -77,19 +77,12 @@ if st.button("Entrar"):
         st.write(mensaje)
         
         if mensaje == "Inicio de sesión exitoso.":
-            # Menú principal
+            # Ahora puedes ejecutar el resto de la aplicación
             opcion = st.selectbox("Seleccione una opción:", ["Agregar Gasto", "Calcular Estadísticas"])
-
             if opcion == "Agregar Gasto":
                 fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
                 categoria = st.text_input("Ingrese la categoría del gasto:")
                 monto = st.number_input("Ingrese el monto del gasto:")
-
-                if st.button("Agregar Gasto"):
-                    # Agregar el gasto al DataFrame
-                    df.loc[len(df)] = [fecha, categoria, monto]
-                    st.success("Gasto agregado exitosamente.")
-
             elif opcion == "Calcular Estadísticas":
                 if not df.empty:
                     # Estadísticas generales
