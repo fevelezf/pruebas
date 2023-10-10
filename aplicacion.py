@@ -80,8 +80,9 @@ if get_current_user() is not None:
     st.write(f"Bienvenido, {get_current_user()}!")
 
     # Botones para registrar gasto, ingreso o ver registros
-    option = st.selectbox("Selecciona una opción:", ("Registrar Gasto", "Registrar Ingreso"))
-
+    option = st.selectbox("Selecciona una opción:", ("","Registrar Gasto", "Registrar Ingreso"))
+    if option == "":
+        st.header("El ahorro es la semilla que plantas hoy para cosechar un futuro financiero más sólido y seguro.")
     if option == "Registrar Gasto":
         st.header("Registrar Gasto")
         with st.form("registrar_gasto_form"):
@@ -100,6 +101,8 @@ if get_current_user() is not None:
                 fecha = ""
                 categoria = ""
                 monto = 0.0
+                st.session_state.option = ""
+                
     if option == "Registrar Ingreso":
         st.header("Registrar Ingreso")
         with st.form("registrar_Ingreso_form"):
