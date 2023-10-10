@@ -67,7 +67,7 @@ def registrar_dato(tipo):
     user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
     user_data.to_csv(f"{username}_data.csv", index=False)
     if st.button("Registrar"):
-        st.success(f"{opcion} registrado exitosamente.")    
+        st.success(f"{tipo} registrado exitosamente.")    
 
 # Función para mostrar los gastos e ingresos del usuario actual
 def mostrar_gastos_ingresos():
@@ -96,14 +96,18 @@ if menu_option == "Inicio":
         if login_successful:
             st.success(message)
             st.session_state.username = username  # Almacenar el nombre de usuario en la sesión
-            opcion = st.selectbox("Seleccione una opción:", ["Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos"])
+            st.empty()  # Limpiar la página actual
+
+            # Crear una nueva sección para la bienvenida y opciones
+            welcome_section = st.empty()
+            welcome_section.title(f"Bienvenido, {username}!")
             
-            if opcion == "Registrar Gasto" or opcion == "Registrar Ingreso":
-                if opcion == "Registrar Gasto":
-                    registrar_dato("Gasto")
-                elif opcion == "Registrar Ingreso":
-                    registrar_dato("Ingreso")
-            elif opcion == "Mostrar Gastos e Ingresos":
+            # Botones para registrar gasto, ingreso o ver registros
+            if welcome_section.button("Registrar Gasto"):
+                registrar_dato("Gasto")
+            if welcome_section.button("Registrar Ingreso"):
+                registrar_dato("Ingreso")
+            if welcome_section.button("Ver Gastos e Ingresos"):
                 mostrar_gastos_ingresos()
         else:
             st.error(message)
