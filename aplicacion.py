@@ -83,12 +83,6 @@ st.title("Seguimiento de Gastos Personales")
 # Menú desplegable en la barra lateral
 menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Registro", "Salir"])
 
-# Título de la aplicación
-st.title("Seguimiento de Gastos Personales")
-
-# Menú desplegable en la barra lateral
-menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Registro", "Salir"])
-
 # Si el usuario ya ha iniciado sesión, mostrar los botones
 if get_current_user() is not None:
     st.write(f"Bienvenido, {get_current_user()}!")
