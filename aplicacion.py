@@ -7,6 +7,10 @@ import os
 # Cargar el archivo CSV con los usuarios
 usuarios_df = pd.read_csv('usuarios.csv')
 
+# Inicializar la variable de sesión para el nombre de usuario
+if 'username' not in st.session_state:
+    st.session_state.username = None
+
 # Obtener el nombre de usuario actual después del inicio de sesión
 def get_current_user():
     return st.session_state.username
@@ -111,7 +115,7 @@ elif menu_option == "Registro":
     new_username = st.text_input("Nuevo Nombre de Usuario:")
     new_password = st.text_input("Nueva Contraseña:", type="password")
 
-    if st.button("Registrar"):
+    if st.button("Registrarse"):
         registration_successful, message = registrar_usuario(new_username, new_password)
         if registration_successful:
             st.success(message)
