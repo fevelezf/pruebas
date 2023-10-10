@@ -83,46 +83,52 @@ st.title("Seguimiento de Gastos Personales")
 # Menú desplegable en la barra lateral
 menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Registro", "Salir"])
 
-# Inicio de sesión
-if menu_option == "Inicio":
-    st.write("Bienvenido al inicio de la aplicación.")
+# Título de la aplicación
+st.title("Seguimiento de Gastos Personales")
 
-    # Campos de inicio de sesión
-    username = st.text_input("Nombre de Usuario:")
-    password = st.text_input("Contraseña:", type="password")
+# Menú desplegable en la barra lateral
+menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Registro", "Salir"])
 
-    if st.button("Iniciar Sesión"):
-        login_successful, message = verificar_credenciales(username, password)
-        if login_successful:
-            st.success(message)
-            st.session_state.username = username  # Almacenar el nombre de usuario en la sesión
-            st.empty()  # Limpiar la página actual
+# Si el usuario ya ha iniciado sesión, mostrar los botones
+if get_current_user() is not None:
+    st.write(f"Bienvenido, {get_current_user()}!")
 
-            # Crear una nueva sección para la bienvenida y opciones
-            welcome_section = st.empty()
-            # Mostrar mensaje de bienvenida
-            st.write(f"Bienvenido, {username}!")
+    # Botones para registrar gasto, ingreso o ver registros
+    if st.button("Registrar Gasto"):
+        registrar_dato("Gasto")
+    if st.button("Registrar Ingreso"):
+        registrar_dato("Ingreso")
+    if st.button("Ver Gastos e Ingresos"):
+        mostrar_gastos_ingresos()
+else:
+    # Inicio de sesión
+    if menu_option == "Inicio":
+        st.write("Bienvenido al inicio de la aplicación.")
 
-            # Botones para registrar gasto, ingreso o ver registros
-            if st.button("Registrar Gasto"):
-                registrar_dato("Gasto")
-            if st.button("Registrar Ingreso"):
-                registrar_dato("Ingreso")
-            if st.button("Ver Gastos e Ingresos"):
-                mostrar_gastos_ingresos()
-elif menu_option == "Registro":
-    st.write("Registro de Usuario")
+        # Campos de inicio de sesión
+        username = st.text_input("Nombre de Usuario:")
+        password = st.text_input("Contraseña:", type="password")
 
-    # Campos de registro
-    new_username = st.text_input("Nuevo Nombre de Usuario:")
-    new_password = st.text_input("Nueva Contraseña:", type="password")
+        if st.button("Iniciar Sesión"):
+            login_successful, message = verificar_credenciales(username, password)
+            if login_successful:
+                st.success(message)
+                st.session_state.username = username  # Almacenar el nombre de usuario en la sesión
+            else:
+                st.error(message)
+    elif menu_option == "Registro":
+        st.write("Registro de Usuario")
 
-    if st.button("Registrarse"):
-        registration_successful, message = registrar_usuario(new_username, new_password)
-        if registration_successful:
-            st.success(message)
-        else:
-            st.error(message)
-elif menu_option == "Salir":
-    st.balloons()
-    st.stop()
+        # Campos de registro
+        new_username = st.text_input("Nuevo Nombre de Usuario:")
+        new_password = st.text_input("Nueva Contraseña:", type="password")
+
+        if st.button("Registrarse"):
+            registration_successful, message = registrar_usuario(new_username, new_password)
+            if registration_successful:
+                st.success(message)
+            else:
+                st.error(message)
+    elif menu_option == "Salir":
+        st.balloons()
+        st.stop()
