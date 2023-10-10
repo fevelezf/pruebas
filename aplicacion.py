@@ -56,19 +56,6 @@ def verificar_credenciales(username, password):
         return False, "Credenciales incorrectas. Por favor, verifique su nombre de usuario y contraseña."
     
 
-# Función para registrar un gasto o ingreso
-def registrar_dato(tipo):
-    fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
-    categoria = st.text_input("Ingrese la categoría:")
-    monto = st.number_input("Ingrese el monto:")
-    username = get_current_user()
-    user_data = get_user_data(username)
-    nuevo_dato = pd.DataFrame({'Fecha': [fecha], 'Tipo': [tipo], 'Categoría': [categoria], 'Monto': [monto]})
-    user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
-    user_data.to_csv(f"{username}_data.csv", index=False)
-    if st.button("Registrar"):
-        st.success(f"{tipo} registrado exitosamente.")    
-
 # Función para mostrar los gastos e ingresos del usuario actual
 def mostrar_gastos_ingresos():
     username = get_current_user()
@@ -81,7 +68,12 @@ def mostrar_gastos_ingresos():
 st.title("Seguimiento de Gastos Personales")
 
 # Menú desplegable en la barra lateral
-menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Registro", "Salir"])
+menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Registro", "Cerrar Sesión"])  # Agregar la opción "Cerrar Sesión"
+
+# Si el usuario elige "Cerrar Sesión", restablecer la variable de sesión a None
+if menu_option == "Cerrar Sesión":
+    st.session_state.username = None
+    st.success("Sesión cerrada con éxito. Por favor, inicie sesión nuevamente.")
 
 # Si el usuario ya ha iniciado sesión, mostrar los botones
 if get_current_user() is not None:
@@ -104,6 +96,10 @@ if get_current_user() is not None:
                 user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
                 user_data.to_csv(f"{username}_data.csv", index=False)
                 st.success("Gasto registrado exitosamente.")
+                # Limpiar los campos después de registrar el gasto
+                fecha = ""
+                categoria = ""
+                monto = 0.0
     if option == "Registrar Ingreso":
         st.header("Registrar Ingreso")
         with st.form("registrar_Ingreso_form"):
