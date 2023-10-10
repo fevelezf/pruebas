@@ -100,17 +100,16 @@ if menu_option == "Inicio":
 
             # Crear una nueva sección para la bienvenida y opciones
             welcome_section = st.empty()
-            welcome_section.title(f"Bienvenido, {username}!")
-            
+            # Mostrar mensaje de bienvenida
+            st.write(f"Bienvenido, {username}!")
+
             # Botones para registrar gasto, ingreso o ver registros
-            if welcome_section.button("Registrar Gasto"):
+            if st.button("Registrar Gasto"):
                 registrar_dato("Gasto")
-            if welcome_section.button("Registrar Ingreso"):
+            if st.button("Registrar Ingreso"):
                 registrar_dato("Ingreso")
-            if welcome_section.button("Ver Gastos e Ingresos"):
+            if st.button("Ver Gastos e Ingresos"):
                 mostrar_gastos_ingresos()
-        else:
-            st.error(message)
 elif menu_option == "Registro":
     st.write("Registro de Usuario")
 
