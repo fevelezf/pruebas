@@ -86,7 +86,7 @@ if get_current_user() is not None:
     if option == "Registrar Gasto":
         st.header("Registrar Gasto")
         with st.form("registrar_gasto_form"):
-            fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
+            fecha = st.date_input("Fecha del Partido")
             # Cambiar el campo de texto por un menú desplegable para la categoría
             categoria = st.selectbox("Seleccione la categoría:", ["Alimentación", "Cuentas y pagos", "Casa", "Transporte", "Ropa", "Salud e higiene", "Diversión", "Otros gastos"])
             monto = st.number_input("Ingrese el monto:")
@@ -108,7 +108,7 @@ if get_current_user() is not None:
     if option == "Registrar Ingreso":
         st.header("Registrar Ingreso")
         with st.form("registrar_Ingreso_form"):
-            fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
+            fecha = st.date_input("Fecha del Partido")
             categoria = st.text_input("Ingrese la categoría:")
             monto = st.number_input("Ingrese el monto:")
             if st.form_submit_button("Registrar"):
