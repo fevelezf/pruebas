@@ -101,11 +101,9 @@ if get_current_user() is not None:
                 fecha = ""
                 categoria = ""
                 monto = 0.0
-                # Actualizar la opción del menú
-                selected_option = ""
 
     # Establecer la opción del menú seleccionada en la variable de estado
-    st.session_state.option = selected_option
+    st.session_state.option = ""
                 
     if option == "Registrar Ingreso":
         st.header("Registrar Ingreso")
