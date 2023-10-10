@@ -88,7 +88,7 @@ if get_current_user() is not None:
     st.write(f"Bienvenido, {get_current_user()}!")
 
     # Botones para registrar gasto, ingreso o ver registros
-    option = st.radio("Selecciona una opción:", ("Registrar Gasto", "Registrar Ingreso", "Ver Registros"))
+    option = st.selectbox("Selecciona una opción:", ("Registrar Gasto", "Registrar Ingreso"))
 
     if option == "Registrar Gasto":
         st.header("Registrar Gasto")
