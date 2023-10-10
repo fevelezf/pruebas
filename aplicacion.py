@@ -57,12 +57,17 @@ def verificar_credenciales(username, password):
     
 
 # Función para registrar un gasto o ingreso
-def registrar_dato(tipo, fecha, categoria, monto):
+def registrar_dato(tipo):
+    fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
+    categoria = st.text_input("Ingrese la categoría:")
+    monto = st.number_input("Ingrese el monto:")
     username = get_current_user()
     user_data = get_user_data(username)
     nuevo_dato = pd.DataFrame({'Fecha': [fecha], 'Tipo': [tipo], 'Categoría': [categoria], 'Monto': [monto]})
     user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
     user_data.to_csv(f"{username}_data.csv", index=False)
+    if st.button("Registrar"):
+        st.success(f"{opcion} registrado exitosamente.")    
 
 # Función para mostrar los gastos e ingresos del usuario actual
 def mostrar_gastos_ingresos():
@@ -94,16 +99,10 @@ if menu_option == "Inicio":
             opcion = st.selectbox("Seleccione una opción:", ["Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos"])
             
             if opcion == "Registrar Gasto" or opcion == "Registrar Ingreso":
-                fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
-                categoria = st.text_input("Ingrese la categoría:")
-                monto = st.number_input("Ingrese el monto:")
-                
-                if st.button("Registrar"):
-                    if opcion == "Registrar Gasto":
-                        registrar_dato("Gasto", fecha, categoria, monto)
-                    elif opcion == "Registrar Ingreso":
-                        registrar_dato("Ingreso", fecha, categoria, monto)
-                    st.success(f"{opcion} registrado exitosamente.")
+                if opcion == "Registrar Gasto":
+                    registrar_dato("Gasto")
+                elif opcion == "Registrar Ingreso":
+                    registrar_dato("Ingreso")
             elif opcion == "Mostrar Gastos e Ingresos":
                 mostrar_gastos_ingresos()
         else:
