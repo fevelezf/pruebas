@@ -87,8 +87,10 @@ menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Registro", "Salir"])
 if get_current_user() is not None:
     st.write(f"Bienvenido, {get_current_user()}!")
 
+    # Botones para registrar gasto, ingreso o ver registros
+    option = st.radio("Selecciona una opción:", ("Registrar Gasto", "Registrar Ingreso", "Ver Registros"))
 
-    if st.button("Registrar Gasto"):
+    if option == "Registrar Gasto":
         st.header("Registrar Gasto")
         with st.form("registrar_gasto_form"):
             fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
@@ -101,7 +103,7 @@ if get_current_user() is not None:
                 user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
                 user_data.to_csv(f"{username}_data.csv", index=False)
                 st.success("Gasto registrado exitosamente.")
-    if st.button("Registrar Ingreso"):
+    if option == "Registrar Ingreso":
         st.header("Registrar Ingreso")
         with st.form("registrar_Ingreso_form"):
             fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
