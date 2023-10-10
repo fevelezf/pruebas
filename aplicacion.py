@@ -87,10 +87,8 @@ menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Registro", "Salir"])
 if get_current_user() is not None:
     st.write(f"Bienvenido, {get_current_user()}!")
 
-    # Botones para registrar gasto, ingreso o ver registros
-    option = st.radio("Selecciona una opción:", ("Registrar Gasto", "Registrar Ingreso", "Ver Registros"))
 
-    if option == "Registrar Gasto":
+    if st.button("Registrar Gasto"):
         st.header("Registrar Gasto")
         with st.form("registrar_gasto_form"):
             fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
@@ -104,16 +102,18 @@ if get_current_user() is not None:
                 user_data.to_csv(f"{username}_data.csv", index=False)
                 st.success("Gasto registrado exitosamente.")
     if st.button("Registrar Ingreso"):
-        fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
-        categoria = st.text_input("Ingrese la categoría:")
-        monto = st.number_input("Ingrese el monto:")
-        username = get_current_user()
-        user_data = get_user_data(username)
-        nuevo_dato = pd.DataFrame({'Fecha': [fecha], 'Tipo': ['Ingreso'], 'Categoría': [categoria], 'Monto': [monto]})
-        user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
-        user_data.to_csv(f"{username}_data.csv", index=False)
-        if st.button("Registrar"):
-            st.success("Ingreso registrado exitosamente.")   
+        st.header("Registrar Ingreso")
+        with st.form("registrar_Ingreso_form"):
+            fecha = st.text_input("Ingrese la fecha (YYYY-MM-DD):")
+            categoria = st.text_input("Ingrese la categoría:")
+            monto = st.number_input("Ingrese el monto:")
+            if st.form_submit_button("Registrar"):
+                username = get_current_user()
+                user_data = get_user_data(username)
+                nuevo_dato = pd.DataFrame({'Fecha': [fecha], 'Tipo': ['Ingreso'], 'Categoría': [categoria], 'Monto': [monto]})
+                user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
+                user_data.to_csv(f"{username}_data.csv", index=False)
+                st.success("Ingreso registrado exitosamente.") 
     if st.button("Ver Gastos e Ingresos"):
         mostrar_gastos_ingresos()
 else:
