@@ -54,7 +54,6 @@ def verificar_credenciales(username, password):
         return True, "Inicio de sesión exitoso."
     else:
         return False, "Credenciales incorrectas. Por favor, verifique su nombre de usuario y contraseña."
-    
 
 # Función para mostrar los gastos e ingresos del usuario actual
 def mostrar_gastos_ingresos():
@@ -80,7 +79,7 @@ if get_current_user() is not None:
     st.write(f"Bienvenido, {get_current_user()}!")
 
     # Botones para registrar gasto, ingreso o ver registros
-    option = st.selectbox("Selecciona una opción:", ("","Registrar Gasto", "Registrar Ingreso"))
+    option = st.selectbox("Selecciona una opción:", ["", "Registrar Gasto", "Registrar Ingreso"])
     if option == "":
         st.header("El ahorro es la semilla que plantas hoy para cosechar un futuro financiero más sólido y seguro.")
     if option == "Registrar Gasto":
@@ -108,7 +107,7 @@ if get_current_user() is not None:
         st.header("Registrar Ingreso")
         with st.form("registrar_Ingreso_form"):
             fecha = st.date_input("Fecha del Partido")
-            categoria_ingresos = st.selectbox("Seleccione la categoría:", ['Salario','Varios'])   
+            categoria_ingresos = st.selectbox("Seleccione la categoría:", ['Salario', 'Varios'])
             monto = st.number_input("Ingrese el monto:")
             if st.form_submit_button("Registrar"):
                 username = get_current_user()
@@ -116,7 +115,7 @@ if get_current_user() is not None:
                 nuevo_dato = pd.DataFrame({'Fecha': [fecha], 'Tipo': ['Ingreso'], 'Categoría': [categoria_ingresos], 'Monto': [monto]})
                 user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
                 user_data.to_csv(f"{username}_data.csv", index=False)
-                st.success("Ingreso registrado exitosamente.") 
+                st.success("Ingreso registrado exitosamente.")
     if st.button("Ver Gastos e Ingresos"):
         mostrar_gastos_ingresos()
 else:
@@ -132,7 +131,8 @@ else:
             login_successful, message = verificar_credenciales(username, password)
             if login_successful:
                 st.success(message)
-                st.session_state.username = username  # Almacenar el nombre de usuario en la sesión
+                # Almacenar el nombre de usuario en la sesión
+                st.session_state.username = username  
             else:
                 st.error(message)
     elif menu_option == "Registro":
@@ -142,6 +142,7 @@ else:
         new_username = st.text_input("Nuevo Nombre de Usuario:")
         new_password = st.text_input("Nueva Contraseña:", type="password")
 
+        #Boton de registro de usuario
         if st.button("Registrarse"):
             registration_successful, message = registrar_usuario(new_username, new_password)
             if registration_successful:
@@ -151,4 +152,3 @@ else:
     elif menu_option == "Salir":
         st.balloons()
         st.stop()
-        #ho
