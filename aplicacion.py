@@ -88,33 +88,32 @@ if get_current_user() is not None:
         with st.form("registrar_gasto_form"):
             fecha = st.date_input("Fecha del Partido")
             # Cambiar el campo de texto por un menú desplegable para la categoría
-            categoria = st.selectbox("Seleccione la categoría:", ["Alimentación", "Cuentas y pagos", "Casa", "Transporte", "Ropa", "Salud e higiene", "Diversión", "Otros gastos"])
+            categoria_gastos = st.selectbox("Seleccione la categoría:", ["Alimentación", "Cuentas y pagos", "Casa", "Transporte", "Ropa", "Salud e higiene", "Diversión", "Otros gastos"])
             monto = st.number_input("Ingrese el monto:")
             if st.form_submit_button("Registrar"):
                 username = get_current_user()
                 user_data = get_user_data(username)
-                nuevo_dato = pd.DataFrame({'Fecha': [fecha], 'Tipo': ['Gasto'], 'Categoría': [categoria], 'Monto': [monto]})
+                nuevo_dato = pd.DataFrame({'Fecha': [fecha], 'Tipo': ['Gasto'], 'Categoría': [categoria_gastos], 'Monto': [monto]})
                 user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
                 user_data.to_csv(f"{username}_data.csv", index=False)
                 st.success("Gasto registrado exitosamente.")
                 # Limpiar los campos después de registrar el gasto
                 fecha = ""
-                categoria = ""
+                categoria_gastos = ""
                 monto = 0.0
 
     # Establecer la opción del menú seleccionada en la variable de estado
     st.session_state.option = ""
-                
     if option == "Registrar Ingreso":
         st.header("Registrar Ingreso")
         with st.form("registrar_Ingreso_form"):
             fecha = st.date_input("Fecha del Partido")
-            categoria = st.text_input("Ingrese la categoría:")
+            categoria_ingresos = st.selectbox("Seleccione la categoría:", ['Salario','Varios'])   
             monto = st.number_input("Ingrese el monto:")
             if st.form_submit_button("Registrar"):
                 username = get_current_user()
                 user_data = get_user_data(username)
-                nuevo_dato = pd.DataFrame({'Fecha': [fecha], 'Tipo': ['Ingreso'], 'Categoría': [categoria], 'Monto': [monto]})
+                nuevo_dato = pd.DataFrame({'Fecha': [fecha], 'Tipo': ['Ingreso'], 'Categoría': [categoria_ingresos], 'Monto': [monto]})
                 user_data = pd.concat([user_data, nuevo_dato], ignore_index=True)
                 user_data.to_csv(f"{username}_data.csv", index=False)
                 st.success("Ingreso registrado exitosamente.") 
