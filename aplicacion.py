@@ -54,7 +54,7 @@ def verificar_credenciales(username, password):
 def mostrar_gastos_ingresos():
     username = st.session_state.username
     User = Query()
-    user_data = db.search(User.username == username)
+    user_data = db_data.search(User.username == username)
     st.write(f"Gastos e Ingresos de {username}:")
 
     # Convierte los datos en un DataFrame de pandas
