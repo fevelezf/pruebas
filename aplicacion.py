@@ -53,7 +53,7 @@ def verificar_credenciales(username, password):
 # Función para mostrar los gastos e ingresos del usuario actual
 def mostrar_gastos_ingresos():
     username = st.session_state.username
-    user_data = db_users.search(Query().username == username)
+    user_data = db_data.search(Query().username == username)
     st.write(f"Gastos e Ingresos de {username}:")
     st.write(user_data)
 
