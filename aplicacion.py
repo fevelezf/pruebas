@@ -238,7 +238,7 @@ else:
         st.video("https://www.youtube.com/watch?v=gqtojhFaSlE&ab_channel=Bancolombia")
         st.write("Y... ¿Sabes que es un ciclo economico?", size=(24))
         st.video("https://www.youtube.com/watch?v=7jklUV3QE70&list=PLYV86yxR8Np89gAhNR8LTpSe7_QthTMHY&index=4&ab_channel=MedallaMilagrosa")
-        st.write("¡Prepara tu camino hacia un futuro financiero más sólido! Regístrate ahora.")
+        st.markdown("<h2>¡Prepara tu camino hacia un futuro financiero más sólido! Regístrate ahora.</h2>", unsafe_allow_html=True)
 
 
     # Inicio de sesión
