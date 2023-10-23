@@ -157,25 +157,24 @@ def mostrar_gastos_ingresos():
     st.write(df)
     crear_grafico_barras_gastos_ingresos()
 
+# Reemplaza 'TU_API_KEY' con tu clave de API real
+api_url = "https://v6.exchangerate-api.com/v6/5efa5e3798ad3392d4156ae7/latest/USD"
+headers = {
+    "apikey": "5efa5e3798ad3392d4156ae7"
+}
+
+response = requests.get(api_url, headers=headers)
+data = response.json()
+
+# Accede a las tasas de cambio
+tasas_de_cambio = data['rates']
+
+# Realiza conversiones de monedas
 def convertir_moneda(cantidad, moneda_origen, moneda_destino):
-    api_url = "https://api.apilayer.com/exchangerates_data/latest"
-    api_key = "tu_api_key"  # Reemplaza con tu clave de API real
-
-    params = {
-        "base": moneda_origen,
-        "symbols": moneda_destino,
-    }
-
-    headers = {
-        "apikey": api_key,
-    }
-
-    response = requests.get(api_url, params=params, headers=headers)
-
-    if response.status_code == 200:
-        data = response.json()
-        tasa_cambio = data["rates"][moneda_destino]
-        cantidad_convertida = cantidad * tasa_cambio
+    tasa_origen = tasas_de_cambio.get(moneda_origen)
+    tasa_destino = tasas_de_cambio.get(moneda_destino)
+    if tasa_origen and tasa_destino:
+        cantidad_convertida = cantidad / tasa_origen * tasa_destino
         return cantidad_convertida
     else:
         return None
@@ -258,7 +257,7 @@ if get_current_user() is not None:
 else:
 
     if menu_option == "Conversion de Moneda":
-                # En el lugar adecuado de tu aplicación
+        # En el lugar adecuado de tu aplicación
         cantidad = st.number_input("Cantidad a convertir:")
         moneda_origen = st.selectbox("Moneda de origen:", ["USD", "EUR", "JPY", "GBP", "CAD"])  # Puedes agregar más monedas según tus necesidades
         moneda_destino = st.selectbox("Moneda de destino:", ["USD", "EUR", "JPY", "GBP", "CAD"])
