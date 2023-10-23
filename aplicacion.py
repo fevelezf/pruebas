@@ -171,7 +171,7 @@ if 'username' not in st.session_state:
 st.title("Seguimiento de Gastos Personales")
 
 # Menú desplegable en la barra lateral
-menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Registro", "Cerrar Sesión"])  # Agregar la opción "Cerrar Sesión"
+menu_option = st.sidebar.selectbox("Menú", ["Inicio","Inicio de Sesion", "Registro", "Cerrar Sesión"])  # Agregar la opción "Cerrar Sesión"
 
 # Si el usuario elige "Cerrar Sesión", restablecer la variable de sesión a None
 if menu_option == "Cerrar Sesión":
@@ -218,8 +218,30 @@ if get_current_user() is not None:
         mostrar_gastos_ingresos()
         crear_grafico_barras_categorias()
 else:
-    # Inicio de sesión
     if menu_option == "Inicio":
+        st.title("Consejos Financieros y Videos")
+
+        # Enlace a consejos financieros
+        st.header("Consejos Financieros")
+        st.write("Aquí encontrarás consejos financieros útiles para mejorar tus finanzas personales.")
+        st.write("1. Ahorra una parte de tus ingresos cada mes.")
+        st.write("2. Crea un presupuesto y ajústate a él.")
+        st.write("3. Paga tus deudas a tiempo.")
+        st.write("4. Invierte tu dinero sabiamente.")
+        st.write("5. Educa tu mente financiera.")
+
+        # Enlace a videos de YouTube
+        st.header("Videos de YouTube")
+        st.write("Hemos recopilado una lista de videos de YouTube sobre educación financiera que te pueden ayudar.")
+        st.markdown("[Video 1: Cómo ahorrar dinero](https://www.youtube.com/watch?v=video1)")
+        st.markdown("[Video 2: Inversiones para principiantes](https://www.youtube.com/watch?v=video2)")
+        st.markdown("[Video 3: Reducción de deudas](https://www.youtube.com/watch?v=video3)")
+        st.markdown("[Video 4: Presupuesto familiar](https://www.youtube.com/watch?v=video4)")
+        st.markdown("[Video 5: Planificación financiera](https://www.youtube.com/watch?v=video5)")
+
+
+    # Inicio de sesión
+    if menu_option == "Inicio de Sesion":
         st.write("Bienvenido al inicio de la aplicación.")
 
         # Campos de inicio de sesión
