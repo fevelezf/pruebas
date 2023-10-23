@@ -185,11 +185,10 @@ if menu_option == "Cerrar Sesión":
 
 # Si el usuario ya ha iniciado sesión, mostrar los botones
 if get_current_user() is not None:
-    st.write(f"Bienvenido, {get_current_user()}!")
 
     if menu_option == "Pagina Principal":
         username = get_current_user()
-        st.write(f"Hola {username}!")
+        st.write(f'<h4 style="font-size: 26px; font-weight: bold; text-align: center;">Hola {username}!</h4>', unsafe_allow_html=True)
 
         # Calculate total expenses and income for the user
         User = Query()
@@ -198,7 +197,10 @@ if get_current_user() is not None:
         ingresos = sum(d['Monto'] for d in user_data if d['Tipo'] == 'Ingreso')
 
         # Display the total expenses and income
-        st.write(f"En total te has gastado {gastos} y has tenido unos ingresos por el valor de {ingresos}.")
+        st.write(f"<h4 style='font-size: 26px;'>En total te has gastado: {gastos}</h4>", unsafe_allow_html=True)
+        st.write(f"<h4 style='font-size: 26px;'>Has tenido unos ingresos por el valor de: {ingresos}</h4>", unsafe_allow_html=True)
+
+
     # Botones para registrar gasto, ingreso o ver registros
     if menu_option == "Registrar Gasto":
         st.header("Registrar Gasto")
