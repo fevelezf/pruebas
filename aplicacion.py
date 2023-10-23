@@ -149,7 +149,7 @@ else:
             else:
                 st.error(message)
 
-        elif col1.button("Registrarse"):
+        if not aceptar_politica:
             st.warning("Por favor, acepta la política de datos personales antes de registrarte.")
 
         # Botón para abrir la ventana emergente en la segunda columna
