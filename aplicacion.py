@@ -136,13 +136,13 @@ else:
         new_username = st.text_input("Nuevo Nombre de Usuario:")
         new_password = st.text_input("Nueva Contraseña:", type="password")
 
-        #Boton de registro de usuario
+        '''#Boton de registro de usuario
         if st.button("Registrarse"):
             registration_successful, message = registrar_usuario(new_username, new_password)
             if registration_successful:
                 st.success(message)
             else:
-                st.error(message)
+                st.error(message)'''
 
         # Botón para abrir la ventana emergente
         if st.button("Ver Política de Tratamiento de Datos"):
