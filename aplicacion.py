@@ -233,11 +233,11 @@ else:
         # Enlace a videos de YouTube
         st.header("Videos de YouTube")
         st.write("Hemos recopilado una lista de videos de YouTube sobre educación financiera que te pueden ayudar.")
-        st.markdown("[Video 1: Cómo ahorrar dinero](https://www.youtube.com/watch?v=video1)")
-        st.markdown("[Video 2: Inversiones para principiantes](https://www.youtube.com/watch?v=video2)")
-        st.markdown("[Video 3: Reducción de deudas](https://www.youtube.com/watch?v=video3)")
-        st.markdown("[Video 4: Presupuesto familiar](https://www.youtube.com/watch?v=video4)")
-        st.markdown("[Video 5: Planificación financiera](https://www.youtube.com/watch?v=video5)")
+        st.video("https://www.youtube.com/watch?v=video1")
+        st.video("https://www.youtube.com/watch?v=video2")
+        st.video("https://www.youtube.com/watch?v=video3")
+        st.video("https://www.youtube.com/watch?v=video4")
+        st.video("https://www.youtube.com/watch?v=video5")
 
 
     # Inicio de sesión
