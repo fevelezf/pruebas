@@ -233,15 +233,19 @@ else:
         # Enlace a videos de YouTube
         st.header("Ahorrar no es solo guardar, sino tambien, saber gastar")
         st.write('<h4 style="font-size: 26px; color: #000000; font-family: cursive; font-weight: bold; text-align: center;">Y para ti... ¿Qué es ahorrar?</h4>', unsafe_allow_html=True)
-        st.write("")
+
         st.video("https://www.youtube.com/watch?v=KDxhvehEius&ab_channel=MedallaMilagrosa")
-        st.write("Tan facil como jugar... es ahorrar")
-        st.write("")
+
+        st.write('<h4 style="font-size: 26px; color: #000000; font-family: cursive; font-weight: bold; text-align: center;">Tan facil como jugar... es ahorrar</h4>', unsafe_allow_html=True)
+
         st.video("https://www.youtube.com/watch?v=gqtojhFaSlE&ab_channel=Bancolombia")
-        st.write("Y... ¿Sabes que es un ciclo economico?")
-        st.write("")
+
+        st.write('<h4 style="font-size: 26px; color: #000000; font-family: cursive; font-weight: bold; text-align: center;">Y... ¿Sabes que es un ciclo economico?</h4>', unsafe_allow_html=True)
+
         st.video("https://www.youtube.com/watch?v=7jklUV3QE70&list=PLYV86yxR8Np89gAhNR8LTpSe7_QthTMHY&index=4&ab_channel=MedallaMilagrosa")
-        st.write("<h2>¡Prepara tu camino hacia un futuro financiero más sólido! Regístrate ahora.</h2>", unsafe_allow_html=True)
+
+        st.write('<h2 style="font-size: 30px; color: #000000; font-family: cursive; font-weight: bold; text-align: center;">¡Prepara tu camino hacia un futuro financiero más sólido! Regístrate ahora.</h2>', unsafe_allow_html=True)
+
 
 
     # Inicio de sesión
