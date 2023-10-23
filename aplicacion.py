@@ -34,7 +34,7 @@ def crear_grafico_torta():
     colors = ['red', 'green']
     
     fig, ax = plt.subplots()
-    ax.bar(sizes, labels=labels, autopct='%1.1f%%', colors=colors, startangle=90)
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', colors=colors, startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
     st.pyplot(fig)
