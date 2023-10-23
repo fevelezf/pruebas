@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from tinydb import TinyDB, Query
-
+import requests
 
 # Cargar el CSS personalizado
 with open("custom.css") as f:
@@ -157,7 +157,28 @@ def mostrar_gastos_ingresos():
     st.write(df)
     crear_grafico_barras_gastos_ingresos()
 
+def convertir_moneda(cantidad, moneda_origen, moneda_destino):
+    api_url = "https://api.apilayer.com/exchangerates_data/latest"
+    api_key = "tu_api_key"  # Reemplaza con tu clave de API real
 
+    params = {
+        "base": moneda_origen,
+        "symbols": moneda_destino,
+    }
+
+    headers = {
+        "apikey": api_key,
+    }
+
+    response = requests.get(api_url, params=params, headers=headers)
+
+    if response.status_code == 200:
+        data = response.json()
+        tasa_cambio = data["rates"][moneda_destino]
+        cantidad_convertida = cantidad * tasa_cambio
+        return cantidad_convertida
+    else:
+        return None
 
 # Inicializa la base de datos para usuarios y gastos e ingresos
 db_users = TinyDB('usuarios.json')
@@ -176,7 +197,7 @@ if get_current_user() is not None:
     menu_option = st.sidebar.selectbox("Menú", ["Pagina Principal", "Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos", "Cerrar Sesión"])
 else:
     # Sidebar menu options for non-logged-in users
-    menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Inicio de Sesion", "Registro"])
+    menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Inicio de Sesion", "Registro","Conversion de Moneda"])
 
 # Si el usuario elige "Cerrar Sesión", restablecer la variable de sesión a None
 if menu_option == "Cerrar Sesión":
@@ -235,6 +256,19 @@ if get_current_user() is not None:
         mostrar_gastos_ingresos()
         crear_grafico_barras_categorias()
 else:
+
+    if menu_option == "Conversion de Moneda":
+                # En el lugar adecuado de tu aplicación
+        cantidad = st.number_input("Cantidad a convertir:")
+        moneda_origen = st.selectbox("Moneda de origen:", ["USD", "EUR", "JPY", "GBP", "CAD"])  # Puedes agregar más monedas según tus necesidades
+        moneda_destino = st.selectbox("Moneda de destino:", ["USD", "EUR", "JPY", "GBP", "CAD"])
+
+        if st.button("Convertir"):
+            cantidad_convertida = convertir_moneda(cantidad, moneda_origen, moneda_destino)
+            if cantidad_convertida is not None:
+                st.success(f"{cantidad} {moneda_origen} es equivalente a {cantidad_convertida} {moneda_destino}")
+            else:
+                st.error("No se pudo realizar la conversión. Comprueba tus entradas y la conexión a Internet.")
     if menu_option == "Inicio":
         # Enlace a consejos financieros
         st.header("Consejos Financieros")
