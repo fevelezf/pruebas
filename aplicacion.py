@@ -137,7 +137,7 @@ else:
         new_password = st.text_input("Nueva Contraseña:", type="password")
 
         # Crear dos columnas para los botones
-        col1, col2 = st.beta_columns(2)
+        col1, col2 = st.columns(2)
 
         # Botón de registro de usuario en la primera columna
         if col1.button("Registrarse"):
