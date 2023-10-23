@@ -231,13 +231,15 @@ else:
         st.write("5. Educa tu mente financiera.")
 
         # Enlace a videos de YouTube
-        st.header("Videos de YouTube")
-        st.write("Hemos recopilado una lista de videos de YouTube sobre educación financiera que te pueden ayudar.")
+        st.header("Ahorrar no es solo guardar, sino tambien, saber gastar")
+        st.write("Y para ti... ¿Que es ahorrar?")
         st.video("https://www.youtube.com/watch?v=KDxhvehEius&ab_channel=MedallaMilagrosa")
-        st.video("https://www.youtube.com/watch?v=video2")
+        st.write("Tan facil como jugar... es ahorrar")
+        st.video("https://www.youtube.com/watch?v=gqtojhFaSlE&ab_channel=Bancolombia")
         st.video("https://www.youtube.com/watch?v=video3")
-        st.video("https://www.youtube.com/watch?v=video4")
-        st.video("https://www.youtube.com/watch?v=video5")
+        st.write("Y... ¿Sabes que es un ciclo economico?")
+        st.video("https://www.youtube.com/watch?v=7jklUV3QE70&list=PLYV86yxR8Np89gAhNR8LTpSe7_QthTMHY&index=4&ab_channel=MedallaMilagrosa")
+        st.write("¡Prepara tu camino hacia un futuro financiero más sólido! Regístrate ahora.")
 
 
     # Inicio de sesión
