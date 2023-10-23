@@ -232,12 +232,11 @@ else:
 
         # Enlace a videos de YouTube
         st.header("Ahorrar no es solo guardar, sino tambien, saber gastar")
-        st.write("Y para ti... ¿Que es ahorrar?")
+        st.write("Y para ti... ¿Que es ahorrar?", size=(24))
         st.video("https://www.youtube.com/watch?v=KDxhvehEius&ab_channel=MedallaMilagrosa")
-        st.write("Tan facil como jugar... es ahorrar")
+        st.write("Tan facil como jugar... es ahorrar", size=(24))
         st.video("https://www.youtube.com/watch?v=gqtojhFaSlE&ab_channel=Bancolombia")
-        st.video("https://www.youtube.com/watch?v=video3")
-        st.write("Y... ¿Sabes que es un ciclo economico?")
+        st.write("Y... ¿Sabes que es un ciclo economico?", size=(24))
         st.video("https://www.youtube.com/watch?v=7jklUV3QE70&list=PLYV86yxR8Np89gAhNR8LTpSe7_QthTMHY&index=4&ab_channel=MedallaMilagrosa")
         st.write("¡Prepara tu camino hacia un futuro financiero más sólido! Regístrate ahora.")
 
