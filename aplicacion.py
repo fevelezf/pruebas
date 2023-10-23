@@ -143,6 +143,12 @@ else:
                 st.success(message)
             else:
                 st.error(message)
+
+        # Botón para abrir la ventana emergente
+        if st.button("Ver Política de Tratamiento de Datos"):
+            with open("politica_datos.txt", "r") as archivo:
+                politica = archivo.read()
+            st.modal(politica)
     elif menu_option == "Salir":
         st.balloons()
         st.stop()
