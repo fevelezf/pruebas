@@ -38,6 +38,29 @@ def crear_grafico_torta():
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
     st.pyplot(fig)
+
+def crear_grafico_barras():
+    User= Query()
+    username = st.session_state.username
+    user_data = db_data.search(User.username == username)
+    
+    # Filtrar datos de gastos e ingresos
+    gastos = [d['Monto'] for d in user_data if d['Tipo'] == 'Gasto']
+    ingresos = [d['Monto'] for d in user_data if d['Tipo'] == 'Ingreso']
+    
+    # Calcular el total de gastos e ingresos
+    total_gastos = sum(gastos)
+    total_ingresos = sum(ingresos)
+    
+    # Crear el gráfico de barras
+    labels = ['Gastos', 'Ingresos']
+    values = [total_gastos, total_ingresos]
+    colors = ['red', 'green']
+    
+    fig, ax = plt.subplots()
+    ax.bar(labels, values, color=colors)
+    
+    st.pyplot(fig)
     
 # Obtener el nombre de usuario actual después del inicio de sesión
 def get_current_user():
@@ -139,6 +162,7 @@ if get_current_user() is not None:
     if st.button("Ver Gastos e Ingresos"):
         mostrar_gastos_ingresos()
         crear_grafico_torta()
+        crear_grafico_barras()
 else:
     # Inicio de sesión
     if menu_option == "Inicio":
