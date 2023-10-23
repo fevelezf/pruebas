@@ -173,7 +173,7 @@ st.title("Seguimiento de Gastos Personales")
 # Menú desplegable en la barra lateral
 if get_current_user() is not None:
     # Sidebar menu options for logged-in users
-    menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Mostrar Gráficos", "Mostrar Gastos e Ingresos", "Registrar Gasto", "Cerrar Sesión"])
+    menu_option = st.sidebar.selectbox("Menú", ["Pagina Principal", "Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos", "Cerrar Sesión"])
 else:
     # Sidebar menu options for non-logged-in users
     menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Inicio de Sesion", "Registro"])
@@ -187,11 +187,20 @@ if menu_option == "Cerrar Sesión":
 if get_current_user() is not None:
     st.write(f"Bienvenido, {get_current_user()}!")
 
+    if menu_option == "Pagina Principal":
+        username = get_current_user()
+        st.write(f"Hola {username}!")
+
+        # Calculate total expenses and income for the user
+        User = Query()
+        user_data = db_data.search(User.username == username)
+        gastos = sum(d['Monto'] for d in user_data if d['Tipo'] == 'Gasto')
+        ingresos = sum(d['Monto'] for d in user_data if d['Tipo'] == 'Ingreso')
+
+        # Display the total expenses and income
+        st.write(f"En total te has gastado {gastos} y has tenido unos ingresos por el valor de {ingresos}.")
     # Botones para registrar gasto, ingreso o ver registros
-    option = st.selectbox("Selecciona una opción:", ["", "Registrar Gasto", "Registrar Ingreso"])
-    if option == "":
-        st.header("El ahorro es la semilla que plantas hoy para cosechar un futuro financiero más sólido y seguro.")
-    if option == "Registrar Gasto":
+    if menu_option == "Registrar Gasto":
         st.header("Registrar Gasto")
         with st.form("registrar_gasto_form"):
             fecha = st.date_input("Fecha del Gasto")
@@ -209,7 +218,7 @@ if get_current_user() is not None:
 
     # Establecer la opción del menú seleccionada en la variable de estado
     st.session_state.option = ""
-    if option == "Registrar Ingreso":
+    if menu_option == "Registrar Ingreso":
         st.header("Registrar Ingreso")
         with st.form("registrar_Ingreso_form"):
             fecha = st.date_input("Fecha del Ingreso")
@@ -219,6 +228,7 @@ if get_current_user() is not None:
                 username = st.session_state.username
                 db_data.insert({'username': username, 'Fecha': str(fecha), 'Tipo': 'Ingreso', 'Categoría': categoria_ingresos, 'Monto': monto})
                 st.success("Ingreso registrado exitosamente.")
+
     if menu_option == "Mostrar Gastos e Ingresos":
         mostrar_gastos_ingresos()
         crear_grafico_barras_categorias()
