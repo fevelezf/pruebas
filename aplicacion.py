@@ -13,6 +13,32 @@ db_data = TinyDB('data.json')
 if 'username' not in st.session_state:
     st.session_state.username = None
 
+
+# Función para crear un gráfico de torta de gastos e ingresos
+def crear_grafico_torta():
+    User= Query()
+    username = st.session_state.username
+    user_data = db_data.search(User.username == username)
+    
+    # Filtrar datos de gastos e ingresos
+    gastos = [d['Monto'] for d in user_data if d['Tipo'] == 'Gasto']
+    ingresos = [d['Monto'] for d in user_data if d['Tipo'] == 'Ingreso']
+    
+    # Calcular el total de gastos e ingresos
+    total_gastos = sum(gastos)
+    total_ingresos = sum(ingresos)
+    
+    # Crear el gráfico de torta
+    labels = ['Gastos', 'Ingresos']
+    sizes = [total_gastos, total_ingresos]
+    colors = ['red', 'green']
+    
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', colors=colors, startangle=90)
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    st.pyplot(fig)
+    
 # Obtener el nombre de usuario actual después del inicio de sesión
 def get_current_user():
     return st.session_state.username
@@ -112,6 +138,7 @@ if get_current_user() is not None:
                 st.success("Ingreso registrado exitosamente.")
     if st.button("Ver Gastos e Ingresos"):
         mostrar_gastos_ingresos()
+        crear_grafico_torta()
 else:
     # Inicio de sesión
     if menu_option == "Inicio":
