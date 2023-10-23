@@ -5,41 +5,76 @@ import matplotlib.pyplot as plt
 import os
 from tinydb import TinyDB, Query
 
-# Inicializa la base de datos para usuarios y gastos e ingresos
-db_users = TinyDB('usuarios.json')
-db_data = TinyDB('data.json')
 
-# Inicializar la variable de sesión para el nombre de usuario
-if 'username' not in st.session_state:
-    st.session_state.username = None
+# Cargar el CSS personalizado
+with open("custom.css") as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 
-# Función para crear un gráfico de torta de gastos e ingresos
-def crear_grafico_torta():
-    User= Query()
+# Función para crear un gráfico de barras por categorías de gastos e ingresos (Sebastian)
+def crear_grafico_barras_categorias():
+    '''Esta funcion realiza un gráfico de barras de la 
+    gastos sumatoria de ingresos por categoria que
+    haya tenido el usuario
+    '''
+    User = Query()
     username = st.session_state.username
     user_data = db_data.search(User.username == username)
-    
+
     # Filtrar datos de gastos e ingresos
-    gastos = [d['Monto'] for d in user_data if d['Tipo'] == 'Gasto']
-    ingresos = [d['Monto'] for d in user_data if d['Tipo'] == 'Ingreso']
-    
-    # Calcular el total de gastos e ingresos
-    total_gastos = sum(gastos)
-    total_ingresos = sum(ingresos)
-    
-    # Crear el gráfico de torta
-    labels = ['Gastos', 'Ingresos']
-    sizes = [total_gastos, total_ingresos]
-    colors = ['red', 'green']
-    
+    categorias_gastos = {}
+    categorias_ingresos = {}
+
+    for d in user_data:
+        if d['Tipo'] == 'Gasto':
+            categoria = d['Categoría']
+            monto = d['Monto']
+            if categoria in categorias_gastos:
+                categorias_gastos[categoria] += monto
+            else:
+                categorias_gastos[categoria] = monto
+        elif d['Tipo'] == 'Ingreso':
+            categoria = d['Categoría']
+            monto = d['Monto']
+            if categoria in categorias_ingresos:
+                categorias_ingresos[categoria] += monto
+            else:
+                categorias_ingresos[categoria] = monto
+
+    # Nos ayudamos de el tipo de dato set para poder crear la lista completa
+    # De categorías
+    categorias_g = set(list(categorias_gastos.keys()))
+    categorias_i = set(list(categorias_ingresos.keys()))
+    categorias = list(categorias_g.union(categorias_i))
+    gastos = [categorias_gastos[categoria] if categoria in categorias_gastos else 0 for categoria in categorias]
+    ingresos = [categorias_ingresos[categoria] if categoria in categorias_ingresos else 0 for categoria in categorias]
+
+    # Posiciones en el eje x
+    x = np.arange(len(categorias))
+
+    # Ancho de las barras
+    width = 0.35
+
+    # Crear el gráfico de barras
     fig, ax = plt.subplots()
-    ax.pie(sizes, labels=labels, autopct='%1.1f%%', colors=colors, startangle=90)
-    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    # Primero graficamos gastos y luego ingresos
+    ax.bar(x - width/2, gastos, width, label='Gastos', color='red')
+    ax.bar(x + width/2, ingresos, width, label='Ingresos', color='green')
+
+    ax.set_xlabel('Categorías')
+    ax.set_ylabel('Monto')
+    ax.set_title(f'Gastos e Ingresos por Categoría de {username}')
+    ax.set_xticks(x)
+    ax.set_xticklabels(categorias, rotation=45, ha="right")
+    ax.legend()
 
     st.pyplot(fig)
 
-def crear_grafico_barras():
+# Función para crear un gráfico de torta de gastos e ingresos (Sebastian)
+def crear_grafico_barras_gastos_ingresos():
+    '''Esta funcion realiza un gráfico de barras de de la sumatoria
+    de gastos e ingresos que haya tenido el usuario
+    '''
     User= Query()
     username = st.session_state.username
     user_data = db_data.search(User.username == username)
@@ -59,38 +94,43 @@ def crear_grafico_barras():
     
     fig, ax = plt.subplots()
     ax.bar(labels, values, color=colors)
-    
+    ax.set_ylabel('Porcentaje')
     st.pyplot(fig)
-    
+
+
 # Obtener el nombre de usuario actual después del inicio de sesión
 def get_current_user():
+    '''Esta funcion obtiene el nombre del usuario actual despues
+    del inicio de sesion
+    '''
     return st.session_state.username
 
-# Función para cargar o crear un archivo CSV para el usuario actual
-def get_user_data(username):
-    user_data_filename = f"{username}_data.csv"
-    if not os.path.exists(user_data_filename):
-        # Si el archivo no existe, crea un DataFrame vacío
-        return pd.DataFrame({'Fecha': [], 'Tipo': [], 'Categoría': [], 'Monto': []})
-    else:
-        # Si el archivo existe, carga los datos desde el archivo CSV
-        return pd.read_csv(user_data_filename)
 
 # Función para registrar un nuevo usuario
-def registrar_usuario(username, password):
+def registrar_usuario(username, password, first_name, last_name, email, confirm_password):
+    '''Esta funcion usa la libreria tinydb para registrar un usuario en un archivo llamado
+    db_users
+    '''
     User = Query()
     # Verifica si el usuario ya existe en la base de datos
     if db_users.search(User.username == username):
         return False, "El usuario ya existe. Por favor, elija otro nombre de usuario."
 
+    # Verifica si las contraseñas coinciden
+    if password != confirm_password:
+        return False, "Las contraseñas no coinciden. Por favor, vuelva a intentar."
+
     # Agrega el nuevo usuario a la base de datos
-    db_users.insert({'username': username, 'password': password})
+    db_users.insert({'username': username, 'password': password, 'first_name': first_name, 'last_name': last_name, 'email': email})
 
     return True, "Registro exitoso. Ahora puede iniciar sesión."
 
 
 # Función para verificar credenciales
 def verificar_credenciales(username, password):
+    '''Esta funcion recibe como argumento el username y el password y verifica que
+    sean inguales para permitir el ingreso al sistema
+    '''
     User = Query()
     # Busca el usuario en la base de datos
     user = db_users.get((User.username == username) & (User.password == password))
@@ -99,8 +139,12 @@ def verificar_credenciales(username, password):
     else:
         return False, "Credenciales incorrectas. Por favor, verifique su nombre de usuario y contraseña."
 
+
 # Función para mostrar los gastos e ingresos del usuario actual
 def mostrar_gastos_ingresos():
+    '''Esta funcion hace un filtrado en db_data segun el usuario en ese momento y 
+    muestra los gastos e ingresos
+    '''
     username = st.session_state.username
     User = Query()
     user_data = db_data.search(User.username == username)
@@ -111,6 +155,17 @@ def mostrar_gastos_ingresos():
 
     # Muestra el DataFrame en forma de tabla
     st.write(df)
+    crear_grafico_barras_gastos_ingresos()
+
+
+
+# Inicializa la base de datos para usuarios y gastos e ingresos
+db_users = TinyDB('usuarios.json')
+db_data = TinyDB('data.json')
+
+# Inicializar la variable de sesión para el nombre de usuario
+if 'username' not in st.session_state:
+    st.session_state.username = None
 
 # Título de la aplicación
 st.title("Seguimiento de Gastos Personales")
@@ -161,8 +216,7 @@ if get_current_user() is not None:
                 st.success("Ingreso registrado exitosamente.")
     if st.button("Ver Gastos e Ingresos"):
         mostrar_gastos_ingresos()
-        crear_grafico_torta()
-        crear_grafico_barras()
+        crear_grafico_barras_categorias()
 else:
     # Inicio de sesión
     if menu_option == "Inicio":
@@ -184,8 +238,12 @@ else:
         st.write("Registro de Usuario")
 
         # Campos de registro
+        first_name = st.text_input("Nombre del Usuario:")
+        last_name = st.text_input("Apellidos del Usuario:")
+        email = st.text_input("Correo electronico del Usuario:")
         new_username = st.text_input("Nuevo Nombre de Usuario:")
-        new_password = st.text_input("Nueva Contraseña:", type="password")
+        new_password = st.text_input("Nueva Contraseña:", type = "password")
+        confirm_password = st.text_input("Confirmar contraseña:", type = "password")
 
         # Crear dos columnas para los botones
         col1, col2 = st.columns(2)
@@ -209,7 +267,10 @@ else:
                 politica = archivo.read()
                 with st.expander("Política de Tratamiento de Datos"):
                     st.write(politica)
-            
     elif menu_option == "Salir":
         st.balloons()
         st.stop()
+
+# Botón acerca de nosotros esquina inferior derecha (Sebastian)
+st.markdown('<a class="popup-button" href="https://docs.google.com/document/d/e/2PACX-1vSIomi8VyMbiALUI7HIL-I94KqkAB6jVr5OtJztLis_plX4uiHcSexuGu17V8WcccZOPt4V7nCoIkZw/pub" target="_blank">Acerca de nosotros</a>',
+            unsafe_allow_html=True)
