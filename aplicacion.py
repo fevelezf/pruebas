@@ -136,20 +136,24 @@ else:
         new_username = st.text_input("Nuevo Nombre de Usuario:")
         new_password = st.text_input("Nueva Contraseña:", type="password")
 
-        '''#Boton de registro de usuario
-        if st.button("Registrarse"):
+        # Crear dos columnas para los botones
+        col1, col2 = st.beta_columns(2)
+
+        # Botón de registro de usuario en la primera columna
+        if col1.button("Registrarse"):
             registration_successful, message = registrar_usuario(new_username, new_password)
             if registration_successful:
                 st.success(message)
             else:
-                st.error(message)'''
+                st.error(message)
 
-        # Botón para abrir la ventana emergente
-        if st.button("Ver Política de Tratamiento de Datos"):
+        # Botón para abrir la ventana emergente en la segunda columna
+        if col2.button("Ver Política de Tratamiento de Datos"):
             with open("politica_datos.txt", "r") as archivo:
                 politica = archivo.read()
-        with st.beta_expander("Política de Tratamiento de Datos"):
-            st.write(politica)
+                with st.beta_expander("Política de Tratamiento de Datos"):
+                    st.write(politica)
+            
     elif menu_option == "Salir":
         st.balloons()
         st.stop()
