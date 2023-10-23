@@ -171,7 +171,12 @@ if 'username' not in st.session_state:
 st.title("Seguimiento de Gastos Personales")
 
 # Menú desplegable en la barra lateral
-menu_option = st.sidebar.selectbox("Menú", ["Inicio","Inicio de Sesion", "Registro", "Cerrar Sesión"])  # Agregar la opción "Cerrar Sesión"
+if get_current_user() is not None:
+    # Sidebar menu options for logged-in users
+    menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Mostrar Gráficos", "Mostrar Gastos e Ingresos", "Registrar Gasto", "Cerrar Sesión"])
+else:
+    # Sidebar menu options for non-logged-in users
+    menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Inicio de Sesion", "Registro"])
 
 # Si el usuario elige "Cerrar Sesión", restablecer la variable de sesión a None
 if menu_option == "Cerrar Sesión":
@@ -214,13 +219,11 @@ if get_current_user() is not None:
                 username = st.session_state.username
                 db_data.insert({'username': username, 'Fecha': str(fecha), 'Tipo': 'Ingreso', 'Categoría': categoria_ingresos, 'Monto': monto})
                 st.success("Ingreso registrado exitosamente.")
-    if st.button("Ver Gastos e Ingresos"):
+    if menu_option == "Mostrar Gastos e Ingresos":
         mostrar_gastos_ingresos()
         crear_grafico_barras_categorias()
 else:
     if menu_option == "Inicio":
-        st.title("Consejos Financieros y Videos")
-
         # Enlace a consejos financieros
         st.header("Consejos Financieros")
         st.write("Aquí encontrarás consejos financieros útiles para mejorar tus finanzas personales.")
