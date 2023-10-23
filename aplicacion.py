@@ -148,7 +148,8 @@ else:
         if st.button("Ver Política de Tratamiento de Datos"):
             with open("politica_datos.txt", "r") as archivo:
                 politica = archivo.read()
-            st.modal(politica)
+        with st.beta_expander("Política de Tratamiento de Datos"):
+            st.write(politica)
     elif menu_option == "Salir":
         st.balloons()
         st.stop()
