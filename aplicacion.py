@@ -342,7 +342,7 @@ else:
         # Botón de registro de usuario en la primera columna
         if aceptar_politica:
             if col1.button("Registrarse"):
-                registration_successful, message = registrar_usuario(new_username, new_password)
+                registration_successful, message = registrar_usuario(new_username, new_password, first_name, last_name, email, confirm_password)
                 if registration_successful:
                     st.success(message)
                 else:
