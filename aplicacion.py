@@ -355,9 +355,11 @@ else:
                 politica = archivo.read()
                 with st.expander("Política de Tratamiento de Datos"):
                     st.write(politica)
-                aceptar_politica = st.checkbox("Acepta la política de datos personales")
-                if aceptar_politica:
+                    
+
+                    aceptar_politica = st.checkbox("Acepta la política de datos personales")
                     aceptar_politica = True
+                
     elif menu_option == "Salir":
         st.balloons()
         st.stop()
