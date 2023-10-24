@@ -346,7 +346,7 @@ else:
         if col2.button("Ver Política de Tratamiento de Datos"):
             with open("politica_datos.txt", "r") as archivo:
                 politica = archivo.read()
-                with st.expander("Política de Tratamiento de Datos"):
+                with st.expander("Política de Tratamiento de Datos",expanded=True):
                     st.write(politica)
                     st.session_state.politica_vista = True
                 # Casilla de verificación para aceptar la política
