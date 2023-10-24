@@ -158,7 +158,7 @@ def mostrar_gastos_ingresos():
     crear_grafico_barras_gastos_ingresos()
 
 # Reemplaza 'TU_API_KEY' con tu clave de API real
-api_url = "https://v6.exchangerate-api.com/v6/5efa5e3798ad3392d4156ae7/latest/USD"
+api_url = "https://app.exchangerate-api.com/"
 api_key = "5efa5e3798ad3392d4156ae7"
 
 # Función para convertir moneda
