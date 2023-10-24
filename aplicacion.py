@@ -336,16 +336,19 @@ else:
         # Crear dos columnas para los botones
         col1, col2 = st.columns(2)
         # Casilla de verificación para aceptar la política de datos personales
+        # Casilla de verificación para aceptar la política de datos personales
         aceptar_politica = False  # Inicializa la variable aceptar_politica
 
         # Botón de registro de usuario en la primera columna
-        if col1.button("Registrarse"):
-            if aceptar_politica:
-                registration_successful, message = registrar_usuario(new_username, new_password, first_name, last_name, email, confirm_password)
+        if aceptar_politica:
+            if col1.button("Registrarse"):
+                registration_successful, message = registrar_usuario(new_username, new_password)
                 if registration_successful:
                     st.success(message)
-            else:
-                st.warning("Por favor, acepta la política de datos personales antes de registrarte.")
+                else:
+                    st.error(message)
+        else:
+            st.warning("Por favor, acepta la política de datos personales antes de registrarte.")
 
         # Botón para abrir la ventana emergente en la segunda columna
         if col2.button("Ver Política de Tratamiento de Datos"):
@@ -354,6 +357,12 @@ else:
                 with st.expander("Política de Tratamiento de Datos"):
                     st.write(politica)
                     aceptar_politica = st.checkbox("Acepta la política de datos personales")
+
+        # Opcionalmente, puedes proporcionar un mensaje informativo adicional para explicar que la aceptación de la política habilita el botón "Registrarse".
+
+        if aceptar_politica:
+            st.info("Puedes hacer clic en el botón 'Registrarse' después de aceptar la política de datos personales.")
+
                 
     elif menu_option == "Salir":
         st.balloons()
