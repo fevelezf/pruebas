@@ -345,16 +345,16 @@ else:
                 with st.expander("Política de Tratamiento de Datos"):
                     st.write(politica)
                 aceptar_politica = st.checkbox("Acepta la política de datos personales")
-        # Botón de registro de usuario en la primera columna
-        if col1.button("Registrarse") and aceptar_politica:
-            registration_successful, message = registrar_usuario(new_username, new_password)
-            if registration_successful:
-                st.success(message)
-            else:
-                st.error(message)
+            # Botón de registro de usuario en la primera columna
+            if col1.button("Registrarse") and aceptar_politica:
+                registration_successful, message = registrar_usuario(new_username, new_password)
+                if registration_successful:
+                    st.success(message)
+                else:
+                    st.error(message)
 
-        if not aceptar_politica:
-            st.warning("Por favor, acepta la política de datos personales antes de registrarte.")
+            if not aceptar_politica:
+                st.warning("Por favor, acepta la política de datos personales antes de registrarte.")
 
     elif menu_option == "Salir":
         st.balloons()
