@@ -159,26 +159,36 @@ def mostrar_gastos_ingresos():
 
 # Reemplaza 'TU_API_KEY' con tu clave de API real
 api_url = "https://v6.exchangerate-api.com/v6/5efa5e3798ad3392d4156ae7/latest/USD"
-headers = {
-    "apikey": "5efa5e3798ad3392d4156ae7"
-}
+api_key = "5efa5e3798ad3392d4156ae7"
 
-response = requests.get(api_url, headers=headers)
-data = response.json()
-
-# Accede a las tasas de cambio
-tasas_de_cambio = data['rates']
-
-# Realiza conversiones de monedas
+# Función para convertir moneda
 def convertir_moneda(cantidad, moneda_origen, moneda_destino):
-    tasa_origen = tasas_de_cambio.get(moneda_origen)
-    tasa_destino = tasas_de_cambio.get(moneda_destino)
-    if tasa_origen and tasa_destino:
-        cantidad_convertida = cantidad / tasa_origen * tasa_destino
-        return cantidad_convertida
-    else:
-        return None
+    # Parámetros para la solicitud a la API
+    params = {
+        "base": moneda_origen,
+        "symbols": moneda_destino
+    }
 
+    # Realiza la solicitud a la API para obtener la tasa de conversión
+    response = requests.get(api_url, params=params, headers={"apikey": api_key})
+
+    # Procesa la respuesta de la API
+    if response.status_code == 200:
+        data = response.json()
+
+        # Verifica si la clave 'rates' existe en data
+        if 'rates' in data:
+            exchange_rate = data['rates'][moneda_destino]
+
+            # Realiza la conversión de moneda con la tasa obtenida
+            converted_amount = cantidad * exchange_rate
+            return converted_amount
+        else:
+            # Maneja el caso en el que 'rates' no está presente en data
+            return None
+    else:
+        # Maneja errores si la solicitud a la API no tiene éxito
+        return None
 # Inicializa la base de datos para usuarios y gastos e ingresos
 db_users = TinyDB('usuarios.json')
 db_data = TinyDB('data.json')
