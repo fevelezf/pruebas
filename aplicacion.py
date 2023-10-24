@@ -336,7 +336,8 @@ else:
         # Crear dos columnas para los botones
         col1, col2 = st.columns(2)
         # Casilla de verificación para aceptar la política de datos personales
-        
+        # Inicializa la variable aceptar_politica
+        aceptar_politica = False
         # Botón para abrir la ventana emergente en la segunda columna
         if col2.button("Ver Política de Tratamiento de Datos"):
             with open("politica_datos.txt", "r") as archivo:
@@ -354,7 +355,7 @@ else:
 
         if not aceptar_politica:
             st.warning("Por favor, acepta la política de datos personales antes de registrarte.")
-            
+
     elif menu_option == "Salir":
         st.balloons()
         st.stop()
