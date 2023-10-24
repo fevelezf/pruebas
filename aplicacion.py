@@ -344,10 +344,10 @@ else:
 
         # Botón para abrir la ventana emergente en la segunda columna
         if col2.button("Ver Política de Tratamiento de Datos"):
-            st.session_state.politica_vista = True
             with open("politica_datos.txt", "r") as archivo:
                 politica = archivo.read()
                 with st.expander("Política de Tratamiento de Datos"):
+                    st.session_state.politica_vista = True
                     st.write(politica)
                 # Casilla de verificación para aceptar la política
         aceptar_politica = st.checkbox("Acepta la política de datos personales")
