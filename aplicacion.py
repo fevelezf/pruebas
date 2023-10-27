@@ -171,7 +171,7 @@ def convertir_moneda(cantidad, moneda_origen, moneda_destino):
 
     # Realiza la solicitud a la API para obtener la tasa de conversión
     response = requests.get("https://v6.exchangerate-api.com/v6/1bdda545040932925faee4fffae66d7e/latest/USD")
-
+    st.write(response)
     # Procesa la respuesta de la API
     if response.status_code == 200:
         data = response.json()
