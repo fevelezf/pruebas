@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import os
 from tinydb import TinyDB, Query
 import requests
-from forex_python.converter import CurrencyRates
 
 # Cargar el CSS personalizado
 with open("custom.css") as f:
@@ -268,19 +267,17 @@ if get_current_user() is not None:
 else:
 
     if menu_option == "Conversion de Moneda":
-        st.title('Conversor de divisas en tiempo real')
+        # En el lugar adecuado de tu aplicación
+        cantidad = st.number_input("Cantidad a convertir:")
+        moneda_origen = st.selectbox("Moneda de origen:", ["USD", "EUR", "JPY", "GBP", "CAD"])  # Puedes agregar más monedas según tus necesidades
+        moneda_destino = st.selectbox("Moneda de destino:", ["USD", "EUR", "JPY", "GBP", "CAD"])
 
-        c = CurrencyRates()
-
-        amount = st.number_input('Ingresa la cantidad que deseas convertir', min_value=1.0, step=1.0)
-
-        from_currency = st.selectbox('De:', ['USD', 'EUR', 'JPY', 'GBP', 'AUD', 'CAD'])
-        to_currency = st.selectbox('A:', ['USD', 'EUR', 'JPY', 'GBP', 'AUD', 'CAD'])
-
-        if st.button('Convertir'):
-            conversion_rate = c.get_rate(from_currency, to_currency)
-            converted_amount = conversion_rate * amount
-            st.write(f'{amount} {from_currency} son equivalentes a {converted_amount} {to_currency}')
+        if st.button("Convertir"):
+            cantidad_convertida = convertir_moneda(cantidad, moneda_origen, moneda_destino)
+            if cantidad_convertida is not None:
+                st.success(f"{cantidad} {moneda_origen} es equivalente a {cantidad_convertida} {moneda_destino}")
+            else:
+                st.error("No se pudo realizar la conversión. Comprueba tus entradas y la conexión a Internet.")
     if menu_option == "Inicio":
         # Enlace a consejos financieros
         st.header("Consejos Financieros")
