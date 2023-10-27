@@ -160,7 +160,7 @@ def mostrar_gastos_ingresos():
 # Reemplaza 'TU_API_KEY' con tu clave de API real
 api_url = "https://v6.exchangerate-api.com/v6/5efa5e3798ad3392d4156ae7/latest/USD"
 api_key = "5efa5e3798ad3392d4156ae7"
-
+api_key2 = "1bdda545040932925faee4fffae66d7e"
 # Función para convertir moneda
 def convertir_moneda(cantidad, moneda_origen, moneda_destino):
     # Parámetros para la solicitud a la API
@@ -170,7 +170,7 @@ def convertir_moneda(cantidad, moneda_origen, moneda_destino):
     }
 
     # Realiza la solicitud a la API para obtener la tasa de conversión
-    response = requests.get("https://v6.exchangerate-api.com/v6/5efa5e3798ad3392d4156ae7/latest/USD")
+    response = requests.get("https://v6.exchangerate-api.com/v6/1bdda545040932925faee4fffae66d7e/latest/USD")
 
     # Procesa la respuesta de la API
     if response.status_code == 200:
