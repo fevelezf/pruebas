@@ -2,3 +2,4 @@ matplotlib==3.4.3
 tinydb
 streamlit==1.4.0
 forex-python==1.5
+ccy==0.0.3
