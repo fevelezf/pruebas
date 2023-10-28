@@ -331,7 +331,7 @@ if get_current_user() is not None:
                 amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
             if st.button("Actualizar"):
                 st.write(selected_fon, miem, amount)
-                upd_fon(selected_fon, miem, amount)
+                #upd_fon(selected_fon, miem, amount)
 
 
 
