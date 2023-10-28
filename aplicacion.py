@@ -328,7 +328,13 @@ if get_current_user() is not None:
             selected_fon = st.selectbox("Elija el fondo al que desee acceder",
                         lista)
             if st.button("Mostrar"):
-                lista = mostrar_fon_com(selected_fon)
+                User = Query()
+                username = st.session_state.username
+                fon_data = db_us_fon_com.search(
+                (User.username == username) & (User.fon_name == selected_fon))
+                df_mem = pd.Series(fon_data[0]["members"])
+                st.write(df_mem)
+                lista = fon_data[0]["members"].keys()
                 with st.form("Fondos"):
                     miem = st.selectbox('Seleccione el miembro', lista)
                     amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
