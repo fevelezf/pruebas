@@ -294,10 +294,31 @@ if get_current_user() is not None:
 
     if menu_option == "Crear Fondo Común":
         fon_name = st.text_input("Nombre del Fondo Común:")
-        Members = st.text_input("Integrantes del fondo(Por favor separar por\
+        Members = st.text_input("Integrantes del fondo(Por favor separar cor\
                                 coma y espacio)")
         if st.button("Registrar"):
             crear_fon_com(st.session_state.username, fon_name, Members)
+            st.success("El fondo ha sido creado")
+
+    if menu_option == "Fondos comunes":
+        User = Query()
+        username = st.session_state.username
+        fon_data = db_us_fon_com.search(User.username == username)
+        st.button()
+        if fon_data:
+            User = Query()
+            username = st.session_state.username
+            fon_data = db_us_fon_com.search(User.username == username)
+            df =  pd.DataFrame(fon_data)
+            lista = df["fon_mame"].to_list()
+            selected_fon = st.selectbox("Elija el fondo al que desee acceder",
+                         lista)
+            if st.button("Mostrar"):
+                mostrar_fon_com(selected_fon)
+        else:
+            st.write("Aún no tienes un fondo común, \
+                     anímate a crear uno")
+
 
 else:
 
