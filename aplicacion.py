@@ -297,24 +297,24 @@ if get_current_user() is not None:
         if st.form_submit_button("Registrar"):
             crear_fon_com(st.session_state.username, fon_name, Members)
 
-#    if menu_option == "Fondos comunes":
-#        User = Query()
-#        username = st.session_state.username
-#        fon_data = db_us_fon_com.search(User.username == username)
-#        st.button()
-#        if fon_data:
-#            User = Query()
-#            username = st.session_state.username
-#            fon_data = db_us_fon_com.search(User.username == username)
-#            df =  pd.DataFrame(fon_data)
-#            lista = df["fon_mame"].to_list()
-#            selected_fon = st.selectbox("Elija el fondo al que desee acceder",
-#                         lista)
-#            if st.button("Mostrar"):
-#                mostrar_fon_com(selected_fon)
-#        else:
-#            st.write("Aún no tienes un fondo común, \
-#                     anímate a crear uno")
+    if menu_option == "Fondos comunes":
+        User = Query()
+        username = st.session_state.username
+        fon_data = db_us_fon_com.search(User.username == username)
+        st.button()
+        if fon_data:
+            User = Query()
+            username = st.session_state.username
+            fon_data = db_us_fon_com.search(User.username == username)
+            df =  pd.DataFrame(fon_data)
+            lista = df["fon_mame"].to_list()
+            selected_fon = st.selectbox("Elija el fondo al que desee acceder",
+                         lista)
+            if st.button("Mostrar"):
+                mostrar_fon_com(selected_fon)
+        else:
+            st.write("Aún no tienes un fondo común, \
+                     anímate a crear uno")
         
 
 
