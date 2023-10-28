@@ -305,6 +305,7 @@ if get_current_user() is not None:
         crear_grafico_barras_categorias()
 
     if menu_option == "Crear Fondo Común":
+        st.header("Crear Fondo Común")
         fon_name = st.text_input("Nombre del Fondo Común:")
         Members = st.text_input("Integrantes del fondo(Por favor separar cor\
                                 coma y espacio)")
@@ -313,6 +314,7 @@ if get_current_user() is not None:
             st.success("El fondo ha sido creado")
 
     if menu_option == "Fondos comunes":
+        st.header("Tus Fondos Comunes")
         User = Query()
         username = st.session_state.username
         fon_data = db_us_fon_com.search(User.username == username)
@@ -327,11 +329,12 @@ if get_current_user() is not None:
                          lista)
             if st.button("Mostrar"):
                 lista = mostrar_fon_com(selected_fon)
-                miem = st.selectbox('Seleccione el miembro', lista)
-                amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
-            if st.button("Actualizar"):
-                st.write(selected_fon, miem, amount)
-                #upd_fon(selected_fon, miem, amount)
+                with st.form("Fondos"):
+                    miem = st.selectbox('Seleccione el miembro', lista)
+                    amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
+                    if st.form_submit_button("Actualizar"):
+                        st.write(selected_fon, miem, amount)
+                        #upd_fon(selected_fon, miem, amount)
 
 
 
