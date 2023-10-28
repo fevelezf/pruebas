@@ -327,8 +327,8 @@ if get_current_user() is not None:
                 lista = mostrar_fon_com(selected_fon)
                 miem = st.selectbox('Seleccione el miembro', lista)
                 amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
-                if st.button("Actualizar"):
-                    upd_fon(selected_fon, miem, amount)
+            if st.button("Actualizar"):
+                upd_fon(selected_fon, miem, amount)
 
 
 
