@@ -198,6 +198,7 @@ def crear_fon_com(usernam, fon_name, members):
     # Insert pero primero creamos un diccionario donde el valor
     # por defecto del aporte de todos los miembros sea 0
     members = members.split(", ")
+    members.append(usernam)
     mem_dic = dict(zip(members, [0] * len(members)))
     db_us_fon_com.insert({"username": usernam, "fon_name": fon_name, "members": mem_dic})
 
