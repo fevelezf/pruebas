@@ -333,7 +333,7 @@ if get_current_user() is not None:
                     miem = st.selectbox('Seleccione el miembro', lista)
                     amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
                     if st.form_submit_button("Actualizar"):
-                        st.write(selected_fon, miem, amount)
+                        st.success(selected_fon, miem, amount)
                         #upd_fon(selected_fon, miem, amount)
 
 
