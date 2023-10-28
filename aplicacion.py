@@ -334,11 +334,12 @@ if get_current_user() is not None:
                     amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
                     #if st.form_submit_button("Actualizar"):
                     if st.form_submit_button("Actualizar"):
-                        username = miem
-                        db_data.insert({'username': username, 'Fecha': str(fecha), 'Tipo': 'Ingreso', 'Categoría': categoria_ingresos, 'Monto': monto})
-                        st.success("Ingreso registrado exitosamente.")
+                        st.write("ssssss")
+                        # username = miem
+                        #db_data.insert({'username': username, 'Fecha': str(fecha), 'Tipo': 'Ingreso', 'Categoría': categoria_ingresos, 'Monto': monto})
+                        #st.success("Ingreso registrado exitosamente.")
                         #st.success(selected_fon, miem, amount)
-                        upd_fon(selected_fon, miem, amount)
+                        #upd_fon(selected_fon, miem, amount)
 
 
 
