@@ -215,10 +215,8 @@ def mostrar_fon_com(fon_elegido):
 def upd_fon(fon_elegido , miem, amount):
     User = Query()
     username = st.session_state.username
-    st.write(fon_elegido, miem, amount)
     fon_data = db_us_fon_com.search(
         (User.username == username) & (User.fon_name == fon_elegido))
-    st.write(fon_data)
     data_act = fon_data[0]["members"]
     data_act[miem]+=amount
     db_us_fon_com.update({"members": data_act}, ((User.username == username) & (User.fon_name == fon_elegido)))
@@ -334,19 +332,12 @@ if get_current_user() is not None:
                 fon_data = db_us_fon_com.search(
                 (User.username == username) & (User.fon_name == selected_fon))
                 df_mem = pd.Series(fon_data[0]["members"])
-                st.write(df_mem)
+
                 lista = fon_data[0]["members"].keys()
                 miem = st.selectbox('Seleccione el miembro', lista)
                 amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
-                    #if st.form_submit_button("Actualizar"):
-                    #if st.form_submit_button("Actualizar"):
-                        #st.write("ssssss")
-                        # username = miem
-                        #db_data.insert({'username': username, 'Fecha': str(fecha), 'Tipo': 'Ingreso', 'Categoría': categoria_ingresos, 'Monto': monto})
-                        #st.success("Ingreso registrado exitosamente.")
-                        #st.success(selected_fon, miem, amount)
-                        #upd_fon(selected_fon, miem, amount)
-            if st.button("Actualizr"):
+
+            if st.button("Actualizar"):
                 upd_fon(selected_fon, miem, amount)
 
 
