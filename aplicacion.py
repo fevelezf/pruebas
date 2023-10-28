@@ -222,6 +222,7 @@ def upd_fon(fon_elegido , miem, amount):
     data_act = fon_data[0]["members"]
     data_act[miem]+=amount
     db_us_fon_com.update({"members": data_act}, ((User.username == username) & (User.fon_name == fon_elegido)))
+    st.success("Se ha registrado correctamente")
 
 
 
@@ -345,9 +346,8 @@ if get_current_user() is not None:
                         #st.success("Ingreso registrado exitosamente.")
                         #st.success(selected_fon, miem, amount)
                         #upd_fon(selected_fon, miem, amount)
-            if st.button("Puntar"):
-                st.write(miem)
-                st.write(amount)
+            if st.button("Actualizr"):
+                upd_fon(selected_fon, miem, amount)
 
 
         else:
