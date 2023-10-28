@@ -310,6 +310,8 @@ else:
 
 
 
+
+
     # Inicio de sesión
     if menu_option == "Inicio de Sesion":
         st.write("Bienvenido al inicio de la aplicación.")
