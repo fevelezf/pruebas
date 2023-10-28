@@ -215,8 +215,10 @@ def mostrar_fon_com(fon_elegido):
 def upd_fon(fon_elegido , miem, amount):
     User = Query()
     username = st.session_state.username
+    st.write(fon_elegido, miem, amount)
     fon_data = db_us_fon_com.search(
         (User.username == username) & (User.fon_name == fon_elegido))
+    st.write(fon_data)
     data_act = fon_data[0]["members"]
     data_act[miem]+=amount
     db_us_fon_com.update({"members": data_act}, ((User.username == username) & (User.fon_name == fon_elegido)))
