@@ -205,7 +205,8 @@ st.title("Seguimiento de Gastos Personales")
 # Menú desplegable en la barra lateral
 if get_current_user() is not None:
     # Sidebar menu options for logged-in users
-    menu_option = st.sidebar.selectbox("Menú", ["Pagina Principal", "Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos", "Cerrar Sesión"])
+    menu_option = st.sidebar.selectbox("Menú", ["Pagina Principal", "Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos",
+                                                "Crear Fondo Común", "Fondos comunes", "Cerrar Sesión"])
 else:
     # Sidebar menu options for non-logged-in users
     menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Inicio de Sesion", "Registro","Conversion de Moneda"])
