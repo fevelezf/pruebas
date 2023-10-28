@@ -291,6 +291,13 @@ if get_current_user() is not None:
     if menu_option == "Mostrar Gastos e Ingresos":
         mostrar_gastos_ingresos()
         crear_grafico_barras_categorias()
+
+    if menu_option == "Crear Fondo Común":
+        fon_name = st.text_input("Nombre del Fondo Común:")
+        Members = st.text_input("Integrantes del fondo(Por favor separar por\
+                                coma y espacio)")
+        if st.form_submit_button("Registrar"):
+            crear_fon_com(st.session_state.username, fon_name, Members)
 else:
 
     if menu_option == "Conversion de Moneda":
