@@ -326,13 +326,17 @@ if get_current_user() is not None:
             df =  pd.DataFrame(fon_data)
             lista = df["fon_name"].to_list()
             selected_fon = st.selectbox("Elija el fondo al que desee acceder",
-                         lista)
+                        lista)
             if st.button("Mostrar"):
                 lista = mostrar_fon_com(selected_fon)
                 with st.form("Fondos"):
                     miem = st.selectbox('Seleccione el miembro', lista)
                     amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
+                    #if st.form_submit_button("Actualizar"):
                     if st.form_submit_button("Actualizar"):
+                        username = miem
+                        db_data.insert({'username': username, 'Fecha': str(fecha), 'Tipo': 'Ingreso', 'Categoría': categoria_ingresos, 'Monto': monto})
+                        st.success("Ingreso registrado exitosamente.")
                         #st.success(selected_fon, miem, amount)
                         upd_fon(selected_fon, miem, amount)
 
@@ -340,7 +344,7 @@ if get_current_user() is not None:
 
         else:
             st.write("Aún no tienes un fondo común, \
-                     anímate a crear uno")
+                    anímate a crear uno")
 
 
 else:
