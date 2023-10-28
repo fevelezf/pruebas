@@ -271,7 +271,7 @@ else:
     if menu_option == "Conversion de Moneda":
         st.title('Conversor de divisas en tiempo real')
 
-        c = CurrencyRates()
+        c = CurrencyRates(force_decimal=True)
 
         amount = st.number_input('Ingresa la cantidad que deseas convertir', min_value=1.0, step=1.0)
 
