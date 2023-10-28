@@ -6,7 +6,7 @@ import os
 from tinydb import TinyDB, Query
 import requests
 from forex_python.converter import CurrencyRates
-from ccy import convert
+
 
 # Cargar el CSS personalizado
 with open("custom.css") as f:
@@ -164,7 +164,7 @@ api_url = "https://v6.exchangerate-api.com/v6/5efa5e3798ad3392d4156ae7/latest/US
 api_key = "5efa5e3798ad3392d4156ae7"
 api_key2 = "1bdda545040932925faee4fffae66d7e"
 # Función para convertir moneda
-'''def convertir_moneda(cantidad, moneda_origen, moneda_destino):
+def convertir_moneda(cantidad, moneda_origen, moneda_destino):
     # Parámetros para la solicitud a la API
     params = {
         "base": moneda_origen,
@@ -190,7 +190,7 @@ api_key2 = "1bdda545040932925faee4fffae66d7e"
             return None
     else:
         # Maneja errores si la solicitud a la API no tiene éxito
-        return None'''
+        return None
 # Inicializa la base de datos para usuarios y gastos e ingresos
 db_users = TinyDB('usuarios.json')
 db_data = TinyDB('data.json')
@@ -271,13 +271,16 @@ else:
     if menu_option == "Conversion de Moneda":
         st.title('Conversor de divisas en tiempo real')
 
+        c = CurrencyRates()
+
         amount = st.number_input('Ingresa la cantidad que deseas convertir', min_value=1.0, step=1.0)
 
         from_currency = st.selectbox('De:', ['USD', 'EUR', 'JPY', 'GBP', 'AUD', 'CAD'])
         to_currency = st.selectbox('A:', ['USD', 'EUR', 'JPY', 'GBP', 'AUD', 'CAD'])
 
         if st.button('Convertir'):
-            converted_amount = convert(amount, from_currency, to_currency)
+            conversion_rate = c.get_rate(from_currency, to_currency)
+            converted_amount = conversion_rate * amount
             st.write(f'{amount} {from_currency} son equivalentes a {converted_amount} {to_currency}')
     if menu_option == "Inicio":
         # Enlace a consejos financieros
