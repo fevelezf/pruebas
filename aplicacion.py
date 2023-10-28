@@ -191,9 +191,33 @@ def convertir_moneda(cantidad, moneda_origen, moneda_destino):
     else:
         # Maneja errores si la solicitud a la API no tiene éxito
         return None
+    
+
+def crear_fon_com(usernam, fon_name, members):
+    # Añadimos el fondo común a la base de datos con la función
+    # Insert pero primero creamos un diccionario donde el valor
+    # por defecto del aporte de todos los miembros sea 0
+    members = members.split(", ")
+    mem_dic = dict(zip(members, [0] * len(members)))
+    db_us_fon_com.insert({"username": usernam, "fon_name": fon_name, "members": mem_dic})
+
+
+def mostrar_fon_com(fon_elegido):
+    User = Query()
+    username = st.session_state.username
+    fon_data = db_us_fon_com.search(
+        (User.username == username) & (User.fon_name == fon_elegido))
+    df_mem = pd.DataFrame(fon_data["members"])
+    st.write(df_mem)
+
+
+
+
+
 # Inicializa la base de datos para usuarios y gastos e ingresos
 db_users = TinyDB('usuarios.json')
 db_data = TinyDB('data.json')
+db_us_fon_com = TinyDB('us_fon_com.json')
 
 # Inicializar la variable de sesión para el nombre de usuario
 if 'username' not in st.session_state:
