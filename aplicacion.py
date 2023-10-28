@@ -332,7 +332,7 @@ if get_current_user() is not None:
                 fon_data = db_us_fon_com.search(
                 (User.username == username) & (User.fon_name == selected_fon))
                 df_mem = pd.Series(fon_data[0]["members"])
-
+                st.write(df_mem)
                 lista = fon_data[0]["members"].keys()
                 miem = st.selectbox('Seleccione el miembro', lista)
                 amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
