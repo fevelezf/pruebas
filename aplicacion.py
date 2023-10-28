@@ -191,32 +191,9 @@ def convertir_moneda(cantidad, moneda_origen, moneda_destino):
     else:
         # Maneja errores si la solicitud a la API no tiene éxito
         return None
-    
-
-def crear_fon_com(usernam, fon_name, members):
-    # Añadimos el fondo común a la base de datos con la función
-    # Insert pero primero creamos un diccionario donde el valor
-    # por defecto del aporte de todos los miembros sea 0
-    members = members.split(", ")
-    mem_dic = dict(zip(members, [0] * len(members)))
-    db_us_fon_com.insert({"username": usernam, "fon_name": fon_name, "members": mem_dic})
-
-
-def mostrar_fon_com(fon_elegido):
-    User = Query()
-    username = st.session_state.username
-    fon_data = db_us_fon_com.search(
-        (User.username == username) & (User.fon_name == fon_elegido))
-    df_mem = pd.DataFrame(fon_data["members"])
-    st.write(df_mem)
-
-
-
-
 # Inicializa la base de datos para usuarios y gastos e ingresos
 db_users = TinyDB('usuarios.json')
 db_data = TinyDB('data.json')
-db_us_fon_com = TinyDB('us_fon_com.json')
 
 # Inicializar la variable de sesión para el nombre de usuario
 if 'username' not in st.session_state:
@@ -228,7 +205,7 @@ st.title("Seguimiento de Gastos Personales")
 # Menú desplegable en la barra lateral
 if get_current_user() is not None:
     # Sidebar menu options for logged-in users
-    menu_option = st.sidebar.selectbox("Menú", ["Pagina Principal", "Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos", "Fondos Comunes", "Cerrar Sesión"])
+    menu_option = st.sidebar.selectbox("Menú", ["Pagina Principal", "Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos", "Cerrar Sesión"])
 else:
     # Sidebar menu options for non-logged-in users
     menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Inicio de Sesion", "Registro","Conversion de Moneda"])
@@ -289,34 +266,7 @@ if get_current_user() is not None:
     if menu_option == "Mostrar Gastos e Ingresos":
         mostrar_gastos_ingresos()
         crear_grafico_barras_categorias()
-    
-    if menu_option == "Crear fondo común":
-        fon_name = st.text_input("Nombre del Fondo Común:")
-        Members = st.text_input("Integrantes del fondo(Por favor separar por\
-                                coma y espacio)")
-        if st.form_submit_button("Registrar"):
-            crear_fon_com(st.session_state.username, fon_name, Members)
-
-    if menu_option == "Fondos comunes":
-        User = Query()
-        username = st.session_state.username
-        fon_data = db_us_fon_com.search(User.username == username)
-        st.button()
-        if fon_data:
-            User = Query()
-            username = st.session_state.username
-            fon_data = db_us_fon_com.search(User.username == username)
-            df =  pd.DataFrame(fon_data)
-            lista = df["fon_mame"].to_list()
-            selected_fon = st.selectbox("Elija el fondo al que desee acceder",
-                         lista)
-            if st.button("Mostrar"):
-                mostrar_fon_com(selected_fon)
-        else:
-            st.write("Aún no tienes un fondo común, \
-                     anímate a crear uno")
-        
-
+else:
 
     if menu_option == "Conversion de Moneda":
         st.title('Conversor de divisas en tiempo real')
@@ -357,6 +307,7 @@ if get_current_user() is not None:
         st.video("https://www.youtube.com/watch?v=7jklUV3QE70&list=PLYV86yxR8Np89gAhNR8LTpSe7_QthTMHY&index=4&ab_channel=MedallaMilagrosa")
 
         st.write('<h2 style="font-size: 30px; color: #000000; font-family: cursive; font-weight: bold; text-align: center;">¡Prepara tu camino hacia un futuro financiero más sólido! Regístrate ahora.</h2>', unsafe_allow_html=True)
+
 
 
 
