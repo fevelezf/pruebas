@@ -347,7 +347,8 @@ if get_current_user() is not None:
                         #st.success(selected_fon, miem, amount)
                         #upd_fon(selected_fon, miem, amount)
             if st.button("Puntar"):
-                st.write("Algoo")
+                st.write(miem)
+                st.write(amount)
 
 
         else:
