@@ -193,22 +193,22 @@ def convertir_moneda(cantidad, moneda_origen, moneda_destino):
         return None
     
 
-#def crear_fon_com(usernam, fon_name, members):
-#    # Añadimos el fondo común a la base de datos con la función
-#    # Insert pero primero creamos un diccionario donde el valor
-#    # por defecto del aporte de todos los miembros sea 0
-#    members = members.split(", ")
-#    mem_dic = dict(zip(members, [0] * len(members)))
-#    db_us_fon_com.insert({"username": usernam, "fon_name": fon_name, "members": mem_dic})
-#
-#
-#def mostrar_fon_com(fon_elegido):
-#    User = Query()
-#    username = st.session_state.username
-#    fon_data = db_us_fon_com.search(
-#        (User.username == username) & (User.fon_name == fon_elegido))
-#    df_mem = pd.DataFrame(fon_data["members"])
-#    st.write(df_mem)
+def crear_fon_com(usernam, fon_name, members):
+    # Añadimos el fondo común a la base de datos con la función
+    # Insert pero primero creamos un diccionario donde el valor
+    # por defecto del aporte de todos los miembros sea 0
+    members = members.split(", ")
+    mem_dic = dict(zip(members, [0] * len(members)))
+    db_us_fon_com.insert({"username": usernam, "fon_name": fon_name, "members": mem_dic})
+
+
+def mostrar_fon_com(fon_elegido):
+    User = Query()
+    username = st.session_state.username
+    fon_data = db_us_fon_com.search(
+        (User.username == username) & (User.fon_name == fon_elegido))
+    df_mem = pd.DataFrame(fon_data["members"])
+    st.write(df_mem)
 
 
 
@@ -228,7 +228,7 @@ st.title("Seguimiento de Gastos Personales")
 # Menú desplegable en la barra lateral
 if get_current_user() is not None:
     # Sidebar menu options for logged-in users
-    menu_option = st.sidebar.selectbox("Menú", ["Pagina Principal", "Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos","Crear Fondo Común", "Fondos Comunes", "Cerrar Sesión"])
+    menu_option = st.sidebar.selectbox("Menú", ["Pagina Principal", "Registrar Gasto", "Registrar Ingreso", "Mostrar Gastos e Ingresos", "Fondos Comunes", "Cerrar Sesión"])
 else:
     # Sidebar menu options for non-logged-in users
     menu_option = st.sidebar.selectbox("Menú", ["Inicio", "Inicio de Sesion", "Registro","Conversion de Moneda"])
@@ -290,12 +290,12 @@ if get_current_user() is not None:
         mostrar_gastos_ingresos()
         crear_grafico_barras_categorias()
     
-#    if menu_option == "Crear Fondo Común":
-#        fon_name = st.text_input("Nombre del Fondo Común:")
-#        Members = st.text_input("Integrantes del fondo(Por favor separar por\
-#                                coma y espacio)")
-#        if st.form_submit_button("Registrar"):
-#            crear_fon_com(st.session_state.username, fon_name, Members)
+    if menu_option == "Crear fondo común":
+        fon_name = st.text_input("Nombre del Fondo Común:")
+        Members = st.text_input("Integrantes del fondo(Por favor separar por\
+                                coma y espacio)")
+        if st.form_submit_button("Registrar"):
+            crear_fon_com(st.session_state.username, fon_name, Members)
 
 #    if menu_option == "Fondos comunes":
 #        User = Query()
