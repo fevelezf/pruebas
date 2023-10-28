@@ -209,7 +209,7 @@ def mostrar_fon_com(fon_elegido):
     fon_data = db_us_fon_com.search(
         (User.username == username) & (User.fon_name == fon_elegido))
     st.write(fon_data)
-    df_mem = pd.DataFrame(fon_data["members"])
+    df_mem = pd.DataFrame(fon_data[0]["members"])
     st.write(df_mem)
 
 
