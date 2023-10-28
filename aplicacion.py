@@ -208,8 +208,7 @@ def mostrar_fon_com(fon_elegido):
     username = st.session_state.username
     fon_data = db_us_fon_com.search(
         (User.username == username) & (User.fon_name == fon_elegido))
-    st.write(fon_data)
-    df_mem = (fon_data[0]["members"])
+    df_mem = pd.Series(fon_data[0]["members"])
     st.write(df_mem)
 
 
