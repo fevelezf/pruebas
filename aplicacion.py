@@ -335,12 +335,11 @@ if get_current_user() is not None:
                 df_mem = pd.Series(fon_data[0]["members"])
                 st.write(df_mem)
                 lista = fon_data[0]["members"].keys()
-                with st.form("Fondos"):
-                    miem = st.selectbox('Seleccione el miembro', lista)
-                    amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
+                miem = st.selectbox('Seleccione el miembro', lista)
+                amount = st.number_input('Ingresa la cantidad que deseas añadir o retirar', min_value=1.0, step=1.0)
                     #if st.form_submit_button("Actualizar"):
-                    if st.form_submit_button("Actualizar"):
-                        st.write("ssssss")
+                    #if st.form_submit_button("Actualizar"):
+                        #st.write("ssssss")
                         # username = miem
                         #db_data.insert({'username': username, 'Fecha': str(fecha), 'Tipo': 'Ingreso', 'Categoría': categoria_ingresos, 'Monto': monto})
                         #st.success("Ingreso registrado exitosamente.")
