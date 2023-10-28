@@ -311,7 +311,7 @@ if get_current_user() is not None:
             username = st.session_state.username
             fon_data = db_us_fon_com.search(User.username == username)
             df =  pd.DataFrame(fon_data)
-            lista = df["fon_mame"].to_list()
+            lista = df["fon_name"].to_list()
             selected_fon = st.selectbox("Elija el fondo al que desee acceder",
                          lista)
             if st.button("Mostrar"):
