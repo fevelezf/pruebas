@@ -304,7 +304,7 @@ if get_current_user() is not None:
         User = Query()
         username = st.session_state.username
         fon_data = db_us_fon_com.search(User.username == username)
-        st.button()
+
         if fon_data:
             User = Query()
             username = st.session_state.username
